@@ -5,7 +5,8 @@ import Link from "next/link";
 import { ArrowRight, CircleCheck } from "lucide-react";
 import { cx } from "@/lib/cx";
 import { ButtonLink } from "../ui";
-import { Landscape } from "./Landscape";
+import Image from "next/image";
+import { PHOTOS } from "@/lib/photos";
 import { Container, Mono, SectionTitle } from "./shared";
 import { Reveal } from "../motion";
 
@@ -61,30 +62,31 @@ export function RelayFeature() {
 
         <Reveal delay={120} y={36}>
         <div className="relative mt-14 overflow-hidden rounded-[1.4rem] border border-line">
-          <Landscape variant="day" className="absolute inset-0 h-full w-full" />
+          <Image src={PHOTOS.thali.src} alt="" placeholder="blur" sizes="(min-width: 1240px) 1180px, 100vw" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-paper/35" aria-hidden />
           <div className="relative flex min-h-[460px] items-center justify-center px-5 py-16">
-            <div key={active} className="w-full max-w-sm rounded-2xl bg-snow p-5 text-navy shadow-[0_30px_80px_-24px_rgb(10_10_10/0.45)] animate-pop">
+            <div key={active} className="w-full max-w-sm rounded-2xl bg-snow p-5 text-ink shadow-[0_30px_80px_-24px_rgb(30_38_32/0.35)] animate-pop">
               <div className="flex items-center justify-between">
-                <p className="text-[15px] text-navy/65">{stage.card.title}</p>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald/30 bg-emerald/10 px-2.5 py-0.5 text-xs font-medium text-emerald">
-                  <span className="size-1.5 rounded-full bg-emerald" aria-hidden />
+                <p className="text-[15px] text-ink/62">{stage.card.title}</p>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-success/30 bg-success/10 px-2.5 py-0.5 text-xs font-medium text-success">
+                  <span className="size-1.5 rounded-full bg-success" aria-hidden />
                   Example
                 </span>
               </div>
               <p className="mt-1.5">
                 <span className="text-4xl font-semibold tracking-tight tabular">{stage.card.big}</span>
-                <span className="ml-1 text-navy/45">{stage.card.unit}</span>
+                <span className="ml-1 text-ink/55">{stage.card.unit}</span>
               </p>
               <ul className="mt-4 space-y-2.5">
                 {stage.card.steps.map(([label, v]) => (
                   <li key={label} className="flex items-center gap-2.5 text-sm">
-                    <CircleCheck className="size-4 shrink-0 fill-emerald text-snow" aria-hidden />
+                    <CircleCheck className="size-4 shrink-0 fill-success text-snow" aria-hidden />
                     <span className="flex-1">{label}</span>
-                    <span className="tabular font-mono text-xs text-navy/50">{v}</span>
+                    <span className="tabular font-mono text-xs text-ink/55">{v}</span>
                   </li>
                 ))}
               </ul>
-              <p className="mt-4 border-t border-navy/10 pt-3 text-[13px] text-navy/55">{stage.card.foot}</p>
+              <p className="mt-4 border-t border-line pt-3 text-[13px] text-ink/62">{stage.card.foot}</p>
             </div>
           </div>
         </div>
@@ -104,17 +106,17 @@ export function RelayFeature() {
               }}
               className="group flex flex-col self-start text-left"
             >
-              <span className="relative block h-px w-full bg-white/10">
+              <span className="relative block h-px w-full bg-ink/10">
                 {i === active ? (
                   <span
                     key={cycle}
-                    className="absolute inset-y-0 left-0 bg-white"
+                    className="absolute inset-y-0 left-0 bg-ink"
                     style={{ animation: `grow ${ROTATE_MS}ms linear forwards` }}
                   />
                 ) : null}
               </span>
-              <span className={cx("mt-5 block text-[15px] transition-colors", i === active ? "text-white" : "text-white/45 group-hover:text-white/70")}>{st.tab}</span>
-              <span className={cx("mt-3 block text-[15px] leading-relaxed text-white/55 transition-opacity", i === active ? "opacity-100" : "opacity-0 md:opacity-0")}>
+              <span className={cx("mt-5 block text-[15px] transition-colors", i === active ? "text-ink" : "text-ink/62 group-hover:text-ink/78")}>{st.tab}</span>
+              <span className={cx("mt-3 block text-[15px] leading-relaxed text-ink/68 transition-opacity", i === active ? "opacity-100" : "opacity-0 md:opacity-0")}>
                 {i === active ? st.body : null}
               </span>
             </button>
@@ -126,7 +128,7 @@ export function RelayFeature() {
           <ButtonLink href="/restaurant" variant="onDark">
             List leftover food <ArrowRight className="size-4" aria-hidden />
           </ButtonLink>
-          <Link href="/board" className="text-[15px] text-white/70 transition-colors hover:text-white">Watch it live on the board</Link>
+          <Link href="/board" className="text-[15px] text-ink/78 transition-colors hover:text-ink">Watch it live on the board</Link>
           <Mono className="ml-auto hidden md:inline">Illustrative example · the board shows real runs</Mono>
         </div>
       </Container>

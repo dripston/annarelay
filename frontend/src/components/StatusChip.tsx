@@ -18,12 +18,12 @@ import { cx } from "@/lib/cx";
 export type Tone = "good" | "info" | "warn" | "bad" | "neutral" | "muted";
 
 export const TONE_CLASS: Record<Tone, string> = {
-  good: "bg-emerald/15 text-emerald border-emerald/40",
-  info: "bg-sky/10 text-sky border-sky/25",
-  warn: "bg-orange/10 text-white border-orange/70",
-  bad: "bg-orange text-navy border-orange",
-  neutral: "bg-white/[0.06] text-white/85 border-white/12",
-  muted: "bg-transparent text-white/50 border-dashed border-white/20",
+  good: "bg-success/15 text-success border-success/40",
+  info: "bg-leaf/10 text-leaf border-leaf/25",
+  warn: "bg-saffron/10 text-ink border-saffron/70",
+  bad: "bg-saffron text-paper border-saffron",
+  neutral: "bg-ink/[0.06] text-ink/85 border-ink/12",
+  muted: "bg-transparent text-ink/68 border-dashed border-ink/20",
 };
 
 type Spec = { label: string; tone: Tone; icon: LucideIcon };

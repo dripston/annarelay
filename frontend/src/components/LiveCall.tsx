@@ -46,11 +46,11 @@ export function useLiveCall(): LiveCallView | null {
 
 export function LiveCallBanner({ call, className }: { call: LiveCallView; className?: string }) {
   return (
-    <section aria-label="Voice call in progress" className={cx("animate-pop rounded-card border border-sky/40 bg-panel p-4 sm:p-5", className)}>
+    <section aria-label="Voice call in progress" className={cx("animate-pop rounded-card border border-leaf/40 bg-panel p-4 sm:p-5", className)}>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="flex items-center gap-2.5 text-white">
-          <span className="relative flex size-8 items-center justify-center rounded-full bg-sky/15 text-sky">
-            {!call.ended ? <span className="absolute inset-0 animate-ping rounded-full bg-sky/30" aria-hidden /> : null}
+        <p className="flex items-center gap-2.5 text-ink">
+          <span className="relative flex size-8 items-center justify-center rounded-full bg-leaf/15 text-leaf">
+            {!call.ended ? <span className="absolute inset-0 animate-ping rounded-full bg-leaf/30" aria-hidden /> : null}
             <PhoneCall className="relative size-4" aria-hidden />
           </span>
           <span className="font-medium">
@@ -58,13 +58,13 @@ export function LiveCallBanner({ call, className }: { call: LiveCallView; classN
           </span>
         </p>
         {call.ended?.offerId ? (
-          <Link href={`/offers/${call.ended.offerId}`} className="rounded-full bg-white px-3.5 py-1.5 text-sm font-semibold text-navy">Open the offer</Link>
+          <Link href={`/offers/${call.ended.offerId}`} className="rounded-full bg-ink px-3.5 py-1.5 text-sm font-semibold text-paper">Open the offer</Link>
         ) : null}
       </div>
       <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_1.2fr]">
         <div className="space-y-2 text-[15px]">
-          {call.lastCaller ? <p className="text-white/70"><span className="font-mono text-[10.5px] tracking-[0.12em] text-white/40 uppercase">Caller</span><br />{call.lastCaller}</p> : null}
-          {call.lastAgent ? <p className="text-white"><span className="font-mono text-[10.5px] tracking-[0.12em] text-sky uppercase">AnnaRelay</span><br />{call.lastAgent}</p> : null}
+          {call.lastCaller ? <p className="text-ink/78"><span className="text-[13px] text-ink/62 font-semibold">Caller</span><br />{call.lastCaller}</p> : null}
+          {call.lastAgent ? <p className="text-ink"><span className="text-[13px] text-leaf font-semibold">AnnaRelay</span><br />{call.lastAgent}</p> : null}
         </div>
         <DraftCard role={call.role} phase={call.phase} draft={call.draft} guardrail={call.guardrail}
           confirmations={{ diet_confirmed: ["safety_checklist", "submitting", "narrating", "done"].includes(call.phase), safety_checklist_confirmed: ["submitting", "narrating", "done"].includes(call.phase) }}

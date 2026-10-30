@@ -50,13 +50,13 @@ export function Countdown({
       aria-live="off"
     >
       {size !== "xl" ? (
-        <Timer className={cx("relative top-0.5 shrink-0 self-start", size === "lg" ? "size-5" : "size-3.5", urgent || done ? "text-orange" : "text-sky")} aria-hidden />
+        <Timer className={cx("relative top-0.5 shrink-0 self-start", size === "lg" ? "size-5" : "size-3.5", urgent || done ? "text-saffron" : "text-leaf")} aria-hidden />
       ) : null}
-      {label && !done ? <span className="text-white/55">{label}</span> : null}
-      <span className={cx("font-medium text-white", urgent && "rounded-md bg-orange px-1.5 text-navy", done && "text-white/50")}>
+      {label && !done ? <span className="text-ink/68">{label}</span> : null}
+      <span className={cx("font-medium text-ink", urgent && "rounded-md bg-saffron px-1.5 text-paper", done && "text-ink/68")}>
         {!ready ? "—" : done ? doneText : parts(left)}
       </span>
-      {showClock ? <span className="text-white/40">until {fmtTime(to)}</span> : null}
+      {showClock ? <span className="text-ink/62">until {fmtTime(to)}</span> : null}
     </span>
   );
 }

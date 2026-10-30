@@ -20,15 +20,15 @@ export function IntakeLayout({
     <main className="mx-auto grid max-w-[1240px] gap-10 px-5 py-12 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:gap-16 lg:px-8 lg:py-16">
       <aside className="lg:sticky lg:top-28 lg:self-start">
         <PageHeader eyebrow={eyebrow} icon={icon} title={title} description={description} />
-        <ol className="mt-10 hidden space-y-0 border-t border-white/[0.07] lg:block">
+        <ol className="mt-10 hidden space-y-0 border-t border-ink/[0.07] lg:block">
           {steps.map((s, i) => (
-            <li key={s} className="flex items-baseline gap-4 border-b border-white/[0.07] py-3.5 text-[15px] text-white/65">
-              <span className="tabular font-mono text-xs text-white/30">0{i + 1}</span>
+            <li key={s} className="flex items-baseline gap-4 border-b border-ink/[0.07] py-3.5 text-[15px] text-ink/72">
+              <span className="tabular font-mono text-xs text-ink/55">0{i + 1}</span>
               {s}
             </li>
           ))}
         </ol>
-        {note ? <div className="mt-8 hidden text-sm leading-relaxed text-white/45 lg:block">{note}</div> : null}
+        {note ? <div className="mt-8 hidden text-sm leading-relaxed text-ink/62 lg:block">{note}</div> : null}
       </aside>
       <div className="min-w-0">{children}</div>
     </main>

@@ -43,9 +43,13 @@ export function useInView<T extends Element>(options: { once?: boolean; rootMarg
   return [ref, inView] as const;
 }
 
-/** Fades and lifts its children in as they scroll into view. `delay` (ms) staggers siblings. */
+/**
+ * Lifts its children in as they scroll into view. `delay` (ms) staggers siblings. Content is never
+ * blurred and only fades from 0.35, so text stays readable even before (or without) JavaScript and
+ * on slow laptops where the observer fires late.
+ */
 export function Reveal({
-  children, delay = 0, y = 18, className, style, as: Tag = "div",
+  children, delay = 0, y = 14, className, style, as: Tag = "div",
 }: {
   children: ReactNode;
   delay?: number;
@@ -60,12 +64,11 @@ export function Reveal({
   return (
     <Tag
       ref={ref as never}
-      className={cx("transition-[opacity,transform,filter] duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform", className)}
+      className={cx("transition-[opacity,transform] duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)]", className)}
       style={{
         ...style,
-        opacity: shown ? 1 : 0,
+        opacity: shown ? 1 : 0.35,
         transform: shown ? "none" : `translate3d(0, ${y}px, 0)`,
-        filter: shown ? "none" : "blur(4px)",
         transitionDelay: shown && !reduced ? `${delay}ms` : "0ms",
       }}
     >

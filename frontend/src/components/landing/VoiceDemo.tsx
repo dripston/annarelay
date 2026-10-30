@@ -17,7 +17,7 @@ const LINES: Tok[][] = [
 ];
 
 const TOKEN: Record<string, string> = {
-  num: "text-orange", food: "text-sky", time: "text-white underline decoration-sky/50 underline-offset-4", place: "text-white/90 italic",
+  num: "text-saffron", food: "text-leaf", time: "text-ink underline decoration-leaf/50 underline-offset-4", place: "text-ink/90 italic",
 };
 
 const FIELDS = [
@@ -49,51 +49,51 @@ export function VoiceDemo() {
           {/* "editor" */}
           <Reveal y={32} className="rounded-[1.25rem] border border-line bg-panel p-2">
             <div className="flex items-center gap-2 px-2 py-1.5">
-              <span className="inline-flex items-center gap-1.5 rounded-lg bg-raised px-2.5 py-1 font-mono text-[12px] text-white/85">
-                <Mic className="size-3 text-orange" aria-hidden /> voice-note.txt
+              <span className="inline-flex items-center gap-1.5 rounded-lg bg-raised px-2.5 py-1 font-mono text-[12px] text-ink/85">
+                <Mic className="size-3 text-saffron" aria-hidden /> voice-note.txt
               </span>
-              <span className="font-mono text-[12px] text-white/35">en-IN + hi-IN</span>
-              <Copy className="ml-auto size-4 text-white/30" aria-hidden />
+              <span className="font-mono text-[12px] text-ink/62">en-IN + hi-IN</span>
+              <Copy className="ml-auto size-4 text-ink/55" aria-hidden />
             </div>
-            <div className="rounded-xl border border-white/[0.05] bg-navy py-3 font-mono text-[13.5px] leading-[1.9]">
+            <div className="rounded-xl border border-ink/[0.05] bg-paper py-3 font-mono text-[13.5px] leading-[1.9]">
               {LINES.map((line, i) => (
-                <div key={i} className={cx("flex gap-5 px-4", i === 1 && "bg-white/[0.03]")}>
-                  <span className="w-4 shrink-0 text-right text-white/25 select-none">{i + 1}</span>
-                  <span className="text-white/70">
+                <div key={i} className={cx("flex gap-5 px-4", i === 1 && "bg-ink/[0.03]")}>
+                  <span className="w-4 shrink-0 text-right text-ink/55 select-none">{i + 1}</span>
+                  <span className="text-ink/78">
                     {line.map((tok, j) => typeof tok === "string" ? <span key={j}>{tok}</span> : <span key={j} className={TOKEN[tok.k]}>{tok.t}</span>)}
                   </span>
                 </div>
               ))}
             </div>
-            <div className="flex items-center justify-between px-3 py-2 font-mono text-[11px] text-white/35">
+            <div className="flex items-center justify-between px-3 py-2 font-mono text-[11px] text-ink/62">
               <span>Speech-to-text · editable</span>
-              <span className="inline-flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-sky" aria-hidden />Example</span>
+              <span className="inline-flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-leaf" aria-hidden />Example</span>
             </div>
           </Reveal>
 
           {/* "response" */}
           <Reveal delay={160} y={32} className="flex flex-col rounded-[1.25rem] border border-line bg-panel">
-            <div className="flex items-center justify-between border-b border-white/[0.06] px-5 py-4">
-              <p className="font-medium text-white">Understood</p>
-              <span className="inline-flex items-center gap-1.5 text-xs text-white/50"><span className="size-1.5 rounded-full bg-sky" aria-hidden />LLM + Laya</span>
+            <div className="flex items-center justify-between border-b border-ink/[0.06] px-5 py-4">
+              <p className="font-medium text-ink">Understood</p>
+              <span className="inline-flex items-center gap-1.5 text-xs text-ink/68"><span className="size-1.5 rounded-full bg-leaf" aria-hidden />LLM + Laya</span>
             </div>
-            <dl className="flex-1 divide-y divide-white/[0.05] px-5">
+            <dl className="flex-1 divide-y divide-ink/[0.05] px-5">
               {FIELDS.map(([k, v]) => (
                 <div key={k} className="flex items-center justify-between py-3 text-[15px]">
-                  <dt className="text-white/50">{k}</dt>
-                  <dd className="text-white">{v}</dd>
+                  <dt className="text-ink/68">{k}</dt>
+                  <dd className="text-ink">{v}</dd>
                 </div>
               ))}
             </dl>
-            <div className="grid grid-cols-3 border-t border-white/[0.06]">
+            <div className="grid grid-cols-3 border-t border-ink/[0.06]">
               {[
-                ["Diet", <span key="d" className="inline-flex items-center gap-1.5"><Leaf className="size-4 text-sky" aria-hidden />Veg 97%</span>],
+                ["Diet", <span key="d" className="inline-flex items-center gap-1.5"><Leaf className="size-4 text-leaf" aria-hidden />Veg 97%</span>],
                 ["Safety concern", "6%"],
                 ["Missing fields", "None"],
               ].map(([k, v]) => (
                 <div key={k as string} className="px-5 py-4">
-                  <p className="text-sm text-white/45">{k}</p>
-                  <p className="mt-1 text-lg text-white">{v}</p>
+                  <p className="text-sm text-ink/62">{k}</p>
+                  <p className="mt-1 text-lg text-ink">{v}</p>
                 </div>
               ))}
             </div>

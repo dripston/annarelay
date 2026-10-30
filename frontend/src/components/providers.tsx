@@ -53,10 +53,10 @@ export function Providers({ children }: { children: ReactNode }) {
                 role={t.tone === "error" ? "alert" : "status"}
                 className={cx(
                   "pointer-events-auto flex w-full max-w-md items-start gap-3 rounded-2xl px-4 py-3 text-[15px] animate-enter",
-                  t.tone === "error" ? "border border-orange/70 bg-panel text-white" : "bg-raised text-white",
+                  t.tone === "error" ? "border border-saffron/70 bg-panel text-ink" : "bg-raised text-ink",
                 )}
               >
-                <Icon className={cx("mt-0.5 size-5 shrink-0", t.tone === "error" ? "text-orange" : t.tone === "success" ? "text-orange" : "text-white/80")} aria-hidden />
+                <Icon className={cx("mt-0.5 size-5 shrink-0", t.tone === "error" ? "text-saffron" : t.tone === "success" ? "text-saffron" : "text-ink/85")} aria-hidden />
                 <div className="min-w-0 flex-1">{t.message}</div>
                 <button type="button" onClick={() => dismiss(t.id)} className="rounded-lg p-0.5 opacity-70 hover:opacity-100" aria-label="Dismiss">
                   <X className="size-4" aria-hidden />

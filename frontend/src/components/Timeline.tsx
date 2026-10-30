@@ -46,21 +46,21 @@ const EVENT: Record<TimelineEventType, { label: string; cat: Cat; icon: LucideIc
 };
 
 const DOT: Record<Cat, string> = {
-  neutral: "bg-panel text-white/70 border-white/15",
-  info: "bg-sky/10 text-sky border-sky/30",
-  amber: "bg-panel text-orange border-orange/70",
-  red: "bg-orange text-navy border-orange",
-  green: "bg-emerald/15 text-emerald border-emerald/50",
-  grey: "bg-navy text-white/40 border-dashed border-white/20",
+  neutral: "bg-panel text-ink/78 border-ink/15",
+  info: "bg-leaf/10 text-leaf border-leaf/30",
+  amber: "bg-panel text-saffron border-saffron/70",
+  red: "bg-saffron text-paper border-saffron",
+  green: "bg-success/15 text-success border-success/50",
+  grey: "bg-paper text-ink/62 border-dashed border-ink/20",
 };
 
 const TAG: Record<Cat, string> = {
-  neutral: "bg-white/[0.06] text-white/75",
-  info: "bg-sky/10 text-sky",
-  amber: "border border-orange/60 text-white",
-  red: "bg-orange text-navy",
-  green: "bg-emerald/15 text-emerald",
-  grey: "border border-dashed border-white/20 text-white/50",
+  neutral: "bg-ink/[0.06] text-ink/78",
+  info: "bg-leaf/10 text-leaf",
+  amber: "border border-saffron/60 text-ink",
+  red: "bg-saffron text-paper",
+  green: "bg-success/15 text-success",
+  grey: "border border-dashed border-ink/20 text-ink/68",
 };
 
 export function eventSpec(type: TimelineEventType) {
@@ -71,7 +71,7 @@ export function EventTag({ type, className }: { type: TimelineEventType; classNa
   const spec = eventSpec(type);
   const Icon = spec.icon;
   return (
-    <span className={cx("inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] tracking-wide whitespace-nowrap uppercase", TAG[spec.cat], className)}>
+    <span className={cx("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[13px] whitespace-nowrap font-semibold", TAG[spec.cat], className)}>
       <Icon className="size-3" aria-hidden />
       {spec.label}
     </span>
@@ -89,7 +89,7 @@ export function Timeline({ events, highlightId }: { events: TimelineEvent[]; hig
         const last = i === events.length - 1;
         return (
           <li key={e.id} className={cx("relative flex gap-4 pb-5 animate-enter", climax && "py-1")}>
-            {!last ? <span className="absolute top-9 bottom-0 left-[17px] w-px bg-white/10" aria-hidden /> : null}
+            {!last ? <span className="absolute top-9 bottom-0 left-[17px] w-px bg-ink/10" aria-hidden /> : null}
             <span
               className={cx(
                 "relative z-10 flex size-9 shrink-0 items-center justify-center rounded-full border",
@@ -102,15 +102,15 @@ export function Timeline({ events, highlightId }: { events: TimelineEvent[]; hig
             <div
               className={cx(
                 "min-w-0 flex-1 pt-1",
-                climax && "rounded-2xl bg-orange p-4 pt-3 text-navy",
-                highlightId === e.id && !climax && "rounded-xl bg-white/[0.04] px-2",
+                climax && "rounded-2xl bg-saffron p-4 pt-3 text-paper",
+                highlightId === e.id && !climax && "rounded-xl bg-ink/[0.04] px-2",
               )}
             >
               <div className="flex flex-wrap items-center gap-2">
-                <span className={cx("tabular font-mono text-[11px]", climax ? "text-navy/70" : "text-white/40")}>{fmtTime(e.at)}</span>
-                <EventTag type={e.type} className={climax ? "bg-navy! text-white!" : undefined} />
+                <span className={cx("tabular font-mono text-[11px]", climax ? "text-paper/70" : "text-ink/62")}>{fmtTime(e.at)}</span>
+                <EventTag type={e.type} className={climax ? "bg-paper! text-ink!" : undefined} />
               </div>
-              <p className={cx("mt-1.5 leading-relaxed", climax ? "text-lg font-semibold text-navy" : "text-[15px] text-white/80")}>{e.message}</p>
+              <p className={cx("mt-1.5 leading-relaxed", climax ? "text-lg font-semibold text-paper" : "text-[15px] text-ink/85")}>{e.message}</p>
             </div>
           </li>
         );

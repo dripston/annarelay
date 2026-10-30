@@ -48,10 +48,10 @@ function ResetControl({ onDone }: { onDone: () => void }) {
   }
   return (
     <div className="flex items-center gap-2">
-      <DemoControl onClick={() => void reset()} busy={busy} icon={<RotateCcw className="size-4" aria-hidden />} className="border-orange!">
+      <DemoControl onClick={() => void reset()} busy={busy} icon={<RotateCcw className="size-4" aria-hidden />} className="border-saffron!">
         Yes, reset everything
       </DemoControl>
-      <button type="button" onClick={() => setConfirming(false)} className="rounded-xl px-3 py-2 text-sm font-semibold text-white/75 hover:bg-white/5">
+      <button type="button" onClick={() => setConfirming(false)} className="rounded-xl px-3 py-2 text-sm font-semibold text-ink/78 hover:bg-ink/5">
         Keep data
       </button>
     </div>
@@ -64,18 +64,18 @@ function DemandRow({ d }: { d: Demand }) {
     <li className="py-3">
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <p className="truncate font-semibold text-white">{d.recipient_name}</p>
-          <p className="text-sm text-white/70">
+          <p className="truncate font-semibold text-ink">{d.recipient_name}</p>
+          <p className="text-sm text-ink/78">
             <span className="tabular">{d.people_count}</span> people · {d.diet === "veg" ? "veg only" : d.diet === "nonveg" ? "non-veg" : "any food"} · by {fmtTime(d.needed_by)}
           </p>
         </div>
         <StatusChip kind="demand" status={d.status} size="sm" />
       </div>
       <div className="mt-2 flex items-center gap-2">
-        <div className="h-2 flex-1 rounded-full bg-white/[0.06]">
-          <div className="h-full rounded-full bg-sky transition-[width] duration-700" style={{ width: `${share * 100}%` }} />
+        <div className="h-2 flex-1 rounded-full bg-ink/[0.06]">
+          <div className="h-full rounded-full bg-leaf transition-[width] duration-700" style={{ width: `${share * 100}%` }} />
         </div>
-        <span className="tabular text-xs font-semibold text-white/70">{d.meals_matched}/{d.people_count} matched</span>
+        <span className="tabular text-xs font-semibold text-ink/78">{d.meals_matched}/{d.people_count} matched</span>
       </div>
     </li>
   );
@@ -137,17 +137,17 @@ export default function BoardPage() {
     <main className="mx-auto max-w-[1240px] px-5 py-12 lg:px-8 lg:py-14">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] text-sky uppercase">
+          <p className="flex items-center gap-2 text-[13px] text-leaf font-semibold">
             <span className="relative flex size-2.5">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-orange opacity-60" aria-hidden />
-              <span className="relative inline-flex size-2.5 rounded-full bg-orange" aria-hidden />
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-saffron opacity-60" aria-hidden />
+              <span className="relative inline-flex size-2.5 rounded-full bg-saffron" aria-hidden />
             </span>
             {streaming ? "Live · streaming from the server" : "Live · updates every 2 s"}
           </p>
-          <h1 className="display mt-4 text-5xl text-white sm:text-6xl">Live Board</h1>
+          <h1 className="display mt-4 text-5xl text-ink sm:text-6xl">Live Board</h1>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          {b ? <span className="tabular text-[15px] text-white/60"><Clock className="mr-1.5 inline size-4 align-[-2px]" aria-hidden />{fmtTime(b.server_time)} IST</span> : null}
+          {b ? <span className="tabular text-[15px] text-ink/72"><Clock className="mr-1.5 inline size-4 align-[-2px]" aria-hidden />{fmtTime(b.server_time)} IST</span> : null}
           {s?.is_simulated ? <SimulatedBadge label="Includes simulated data" /> : null}
           <ResetControl onDone={() => void board.refresh()} />
         </div>
@@ -184,10 +184,10 @@ export default function BoardPage() {
         {/* offers */}
         <section aria-labelledby="offers-title">
           <div className="flex items-baseline justify-between gap-2">
-            <h2 id="offers-title" className="text-2xl font-semibold tracking-tight text-white">
-              Offers in progress <span className="tabular text-white/50">{b ? live.length : ""}</span>
+            <h2 id="offers-title" className="text-2xl font-semibold tracking-tight text-ink">
+              Offers in progress <span className="tabular text-ink/68">{b ? live.length : ""}</span>
             </h2>
-            <Link href="/restaurant" className="text-sm font-medium text-sky hover:underline">List leftover food</Link>
+            <Link href="/restaurant" className="text-sm font-medium text-leaf hover:underline">List leftover food</Link>
           </div>
           <div className="mt-4 space-y-4">
             {!b ? (
@@ -203,9 +203,9 @@ export default function BoardPage() {
 
           {finished.length ? (
             <>
-              <h2 className="mt-10 flex items-center gap-2 text-xl font-semibold tracking-tight text-white">
-                <CircleCheck className="size-5 text-sky" aria-hidden /> Finished
-                <span className="tabular text-white/50">{finished.length}</span>
+              <h2 className="mt-10 flex items-center gap-2 text-xl font-semibold tracking-tight text-ink">
+                <CircleCheck className="size-5 text-leaf" aria-hidden /> Finished
+                <span className="tabular text-ink/68">{finished.length}</span>
               </h2>
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 {finished.map((o) => <OfferCard key={o.id} offer={o} detail={details.data?.[o.id]} now={now} />)}
@@ -218,23 +218,23 @@ export default function BoardPage() {
         <aside className="space-y-6">
           <Card className="p-5">
             <div className="flex items-center justify-between gap-2">
-              <h2 className="flex items-center gap-2 text-xl font-semibold tracking-tight text-white">
-                <Users className="size-5 text-sky" aria-hidden /> Recipients
+              <h2 className="flex items-center gap-2 text-xl font-semibold tracking-tight text-ink">
+                <Users className="size-5 text-leaf" aria-hidden /> Recipients
               </h2>
               {recipients.some((r) => r.reliability.is_simulated_history) ? <SimulatedBadge label="Simulated history" /> : null}
             </div>
-            <p className="mt-1 text-sm text-white/65">Ranked by reliability. Dot = likely completion, band = 90% range.</p>
+            <p className="mt-1 text-sm text-ink/72">Ranked by reliability. Dot = likely completion, band = 90% range.</p>
             {!b ? (
               <div className="mt-4 space-y-3">{Array.from({ length: 5 }, (_, i) => <Skeleton key={i} className="h-14" />)}</div>
             ) : (
-              <ol className="mt-4 divide-y divide-white/[0.06]">
+              <ol className="mt-4 divide-y divide-ink/[0.06]">
                 {recipients.map((r, i) => (
                   <li key={r.id} className="py-3.5">
                     <div className="mb-2 flex items-center justify-between gap-2">
-                      <p className="min-w-0 truncate font-medium text-white">
-                        <span className="tabular mr-2 text-white/45">{i + 1}</span>{r.name}
+                      <p className="min-w-0 truncate font-medium text-ink">
+                        <span className="tabular mr-2 text-ink/62">{i + 1}</span>{r.name}
                       </p>
-                      <Link href={`/collector/${r.id}`} className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-sky hover:underline">
+                      <Link href={`/collector/${r.id}`} className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-leaf hover:underline">
                         <Inbox className="size-3.5" aria-hidden /> Inbox
                       </Link>
                     </div>
@@ -246,18 +246,18 @@ export default function BoardPage() {
           </Card>
 
           <Card className="p-5">
-            <h2 className="text-xl font-semibold tracking-tight text-white">Demand board</h2>
-            <p className="mt-1 text-sm text-white/65">What homes have asked for today. Food is only offered against these.</p>
+            <h2 className="text-xl font-semibold tracking-tight text-ink">Demand board</h2>
+            <p className="mt-1 text-sm text-ink/72">What homes have asked for today. Food is only offered against these.</p>
             {!b ? (
               <div className="mt-4 space-y-3">{Array.from({ length: 3 }, (_, i) => <Skeleton key={i} className="h-14" />)}</div>
             ) : activeDemands.length === 0 ? (
-              <p className="mt-4 rounded-2xl bg-white/[0.03] px-4 py-3 text-sm text-white/70">No open needs right now.</p>
+              <p className="mt-4 rounded-2xl bg-ink/[0.03] px-4 py-3 text-sm text-ink/78">No open needs right now.</p>
             ) : (
-              <ul className={cx("mt-2 divide-y divide-white/[0.06]")}>
+              <ul className={cx("mt-2 divide-y divide-ink/[0.06]")}>
                 {activeDemands.map((d) => <DemandRow key={d.id} d={d} />)}
               </ul>
             )}
-            {doneDemands > 0 ? <p className="mt-2 text-xs text-white/60">{doneDemands} earlier needs fulfilled or expired.</p> : null}
+            {doneDemands > 0 ? <p className="mt-2 text-xs text-ink/72">{doneDemands} earlier needs fulfilled or expired.</p> : null}
           </Card>
         </aside>
       </div>

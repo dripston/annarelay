@@ -7,12 +7,12 @@ import { cx } from "@/components/ui";
 export type OrbMode = "idle" | "connecting" | "listening" | "thinking" | "speaking" | "ended";
 
 const RING: Record<OrbMode, string> = {
-  idle: "#262626",
-  connecting: "#0099ff",
-  listening: "#0099ff",
-  thinking: "#f0b24a",
-  speaking: "#10b981",
-  ended: "#262626",
+  idle: "#1f7a4c",
+  connecting: "#f2b544",
+  listening: "#1f7a4c",
+  thinking: "#f2b544",
+  speaking: "#d9822b",
+  ended: "#b9b0a2",
 };
 
 /**
@@ -89,15 +89,15 @@ export function VoiceOrb({ mode, level, className }: { mode: OrbMode; level: () 
       ))}
       {/* core */}
       <div
-        className="absolute inset-[26%] rounded-full shadow-[inset_0_-12px_40px_rgb(0_0_0/0.55)]"
+        className="absolute inset-[26%] rounded-full shadow-[inset_0_-14px_36px_rgb(30_38_32/0.28),0_18px_40px_-18px_rgb(30_38_32/0.45)]"
         style={{
-          background: `radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--c) 85%, #fff) 0%, var(--c) 35%, color-mix(in srgb, var(--c) 35%, #0a0a0a) 75%, #0a0a0a 100%)`,
+          background: `radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--c) 55%, #fff) 0%, var(--c) 42%, color-mix(in srgb, var(--c) 70%, #1e2620) 100%)`,
           transform: "scale(calc(0.94 + var(--lvl) * 0.14))",
           transition: "background 500ms",
         }}
       />
       {/* specular highlight */}
-      <div className="absolute top-[31%] left-[36%] h-[12%] w-[18%] rounded-full bg-white/35 blur-md" />
+      <div className="absolute top-[31%] left-[36%] h-[12%] w-[18%] rounded-full bg-snow/55 blur-md" />
     </div>
   );
 }

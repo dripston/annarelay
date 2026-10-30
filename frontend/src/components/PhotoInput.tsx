@@ -15,18 +15,18 @@ export function PhotoInput({ file, onChange, disabled }: { file: File | null; on
 
   if (file && preview) {
     return (
-      <div className="flex items-center gap-4 rounded-2xl border border-line bg-white/[0.03] p-3">
+      <div className="flex items-center gap-4 rounded-2xl border border-line bg-ink/[0.03] p-3">
         {/* eslint-disable-next-line @next/next/no-img-element -- local object URL preview */}
         <img src={preview} alt="Selected food photo" className="size-20 rounded-xl object-cover" />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-white">{file.name}</p>
-          <p className="text-xs text-white/65">{(file.size / 1024 / 1024).toFixed(1)} MB · sent with your message</p>
+          <p className="truncate text-sm font-semibold text-ink">{file.name}</p>
+          <p className="text-xs text-ink/72">{(file.size / 1024 / 1024).toFixed(1)} MB · sent with your message</p>
         </div>
         <button
           type="button"
           onClick={() => onChange(null)}
           disabled={disabled}
-          className="rounded-xl p-2 text-white/75 hover:bg-white/5 hover:text-white"
+          className="rounded-xl p-2 text-ink/78 hover:bg-ink/5 hover:text-ink"
           aria-label="Remove photo"
         >
           <X className="size-5" aria-hidden />
@@ -38,14 +38,14 @@ export function PhotoInput({ file, onChange, disabled }: { file: File | null; on
   return (
     <label
       className={cx(
-        "flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-sky/40 bg-white/[0.02] px-4 py-3.5",
-        "text-sky transition-colors hover:border-sky/60 hover:bg-sky/[0.06]",
+        "flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-leaf/40 bg-ink/[0.02] px-4 py-3.5",
+        "text-leaf transition-colors hover:border-leaf/60 hover:bg-leaf/[0.06]",
         disabled && "pointer-events-none opacity-50",
       )}
     >
       <Camera className="size-5 shrink-0" aria-hidden />
       <span className="text-[15px] font-semibold">Add a photo of the food</span>
-      <span className="ml-auto text-sm text-white/55">Optional</span>
+      <span className="ml-auto text-sm text-ink/68">Optional</span>
       <input
         type="file"
         accept="image/jpeg,image/png,image/webp,image/gif,image/heic"

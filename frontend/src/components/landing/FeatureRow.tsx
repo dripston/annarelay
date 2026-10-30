@@ -15,9 +15,9 @@ export function FeatureRow() {
       <Container className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         {FEATURES.map((f, i) => (
           <Reveal key={f.title} delay={i * 110}>
-            <f.icon className="size-5 text-sky" aria-hidden />
-            <h3 className="mt-5 text-[17px] font-medium text-white">{f.title}</h3>
-            <p className="mt-3 text-[15px] leading-relaxed text-white/50">{f.body}</p>
+            <f.icon className="size-5 text-leaf" aria-hidden />
+            <h3 className="mt-5 text-[17px] font-medium text-ink">{f.title}</h3>
+            <p className="mt-3 text-[15px] leading-relaxed text-ink/68">{f.body}</p>
           </Reveal>
         ))}
       </Container>

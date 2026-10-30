@@ -14,15 +14,15 @@ export function SelectionNote({ selection, className }: { selection: SelectionIn
       : "Ranked by reliability";
 
   return (
-    <div className={cx("rounded-xl border px-3 py-2.5 text-sm", explored ? "border-dashed border-sky/40 bg-sky/[0.05]" : "border-white/[0.06] bg-white/[0.03]", className)}>
-      <p className="flex items-center gap-1.5 font-medium text-sky">
+    <div className={cx("rounded-xl border px-3 py-2.5 text-sm", explored ? "border-dashed border-leaf/40 bg-leaf/[0.05]" : "border-ink/[0.06] bg-ink/[0.03]", className)}>
+      <p className="flex items-center gap-1.5 font-medium text-leaf">
         <Icon className="size-3.5 shrink-0" aria-hidden />
         {title}
         {method === "thompson" && sampled !== null ? (
-          <span className="tabular ml-auto font-mono text-[11px] text-white/45">drew {pct(sampled)}</span>
+          <span className="tabular ml-auto font-mono text-[11px] text-ink/62">drew {pct(sampled)}</span>
         ) : null}
       </p>
-      <p className="mt-1 leading-relaxed text-white/60">{reason}</p>
+      <p className="mt-1 leading-relaxed text-ink/72">{reason}</p>
     </div>
   );
 }

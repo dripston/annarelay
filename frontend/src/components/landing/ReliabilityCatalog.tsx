@@ -25,17 +25,17 @@ export function ReliabilityCatalog({ board }: { board: Board | null }) {
         <div className="lg:sticky lg:top-28">
           <Eyebrow icon={<Send />}>Who gets the food</Eyebrow>
           <SectionTitle className="mt-5">Every home, ranked honestly</SectionTitle>
-          <p className="mt-6 max-w-md text-lg leading-relaxed text-white/55">
+          <p className="mt-6 max-w-md text-lg leading-relaxed text-ink/68">
             A Bayesian estimate of who will actually show up, shown with its uncertainty. A proven home has a narrow band; a new one, a wide band.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <ButtonLink href="/board" variant="onDark">Open the Live Board <ArrowRight className="size-4" aria-hidden /></ButtonLink>
             <ButtonLink href="/recipient" variant="outline">Post today&apos;s need</ButtonLink>
           </div>
-          <div className="mt-10 grid max-w-md grid-cols-2 gap-x-6 gap-y-4 border-t border-white/[0.07] pt-8">
+          <div className="mt-10 grid max-w-md grid-cols-2 gap-x-6 gap-y-4 border-t border-ink/[0.07] pt-8">
             {POINTS.map((p) => (
-              <p key={p.label} className="flex items-center gap-2.5 text-[15px] text-white/70">
-                <p.icon className="size-4 text-white/40" aria-hidden />
+              <p key={p.label} className="flex items-center gap-2.5 text-[15px] text-ink/78">
+                <p.icon className="size-4 text-ink/62" aria-hidden />
                 {p.label}
               </p>
             ))}
@@ -43,25 +43,25 @@ export function ReliabilityCatalog({ board }: { board: Board | null }) {
         </div>
 
         <Reveal delay={120} y={36} className="rounded-[1.4rem] border border-line bg-panel p-2">
-          <div className="rounded-2xl border border-white/[0.05] bg-navy">
-            <div className="flex items-center justify-between border-b border-white/[0.06] px-5 py-4">
-              <p className="font-medium text-white">Homes, by reliability</p>
+          <div className="rounded-2xl border border-ink/[0.05] bg-paper">
+            <div className="flex items-center justify-between border-b border-ink/[0.06] px-5 py-4">
+              <p className="font-medium text-ink">Homes, by reliability</p>
               <SimulatedBadge label="Simulated history" />
             </div>
-            <ol className="divide-y divide-white/[0.05]">
+            <ol className="divide-y divide-ink/[0.05]">
               {homes.length
                 ? homes.map((h, i) => (
                   <Reveal as="li" key={h.id} delay={200 + i * 90} y={10} className="px-5 py-4">
                     <div className="mb-2.5 flex items-center justify-between gap-3">
-                      <p className="text-[15px] text-white"><span className="tabular mr-3 font-mono text-xs text-white/30">0{i + 1}</span>{h.name}</p>
-                      <span className="text-xs text-white/40">{TYPE[h.type]} · {h.area}</span>
+                      <p className="text-[15px] text-ink"><span className="tabular mr-3 font-mono text-xs text-ink/55">0{i + 1}</span>{h.name}</p>
+                      <span className="text-xs text-ink/62">{TYPE[h.type]} · {h.area}</span>
                     </div>
                     <ReliabilityBar recipient={h} />
                   </Reveal>
                 ))
                 : Array.from({ length: 5 }, (_, i) => <li key={i} className="px-5 py-4"><Skeleton className="h-10" /></li>)}
             </ol>
-            <p className="border-t border-white/[0.06] px-5 py-3.5 text-[13px] text-white/45">
+            <p className="border-t border-ink/[0.06] px-5 py-3.5 text-[13px] text-ink/62">
               Dot = likely completion · band = 90% range · refreshed live from the board
             </p>
           </div>

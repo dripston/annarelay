@@ -45,8 +45,8 @@ function Outcome({ offer }: { offer: OfferDetail }) {
   return (
     <div className="space-y-3">
       {promoted ? (
-        <div className="flex items-start gap-4 rounded-card bg-orange p-5 text-navy animate-pop sm:p-6" role="status">
-          <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-raised text-white animate-pulse-ring">
+        <div className="flex items-start gap-4 rounded-card bg-saffron p-5 text-paper animate-pop sm:p-6" role="status">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-raised text-ink animate-pulse-ring">
             <ArrowRightLeft className="size-6" aria-hidden />
           </span>
           <div>
@@ -57,7 +57,7 @@ function Outcome({ offer }: { offer: OfferDetail }) {
       ) : null}
 
       {offer.status === "collected" && collectedAt ? (
-        <div className="flex items-center gap-4 rounded-card bg-emerald p-5 text-navy animate-pop sm:p-6" role="status">
+        <div className="flex items-center gap-4 rounded-card bg-success p-5 text-paper animate-pop sm:p-6" role="status">
           <PackageCheck className="size-10 shrink-0" aria-hidden />
           <p className="text-xl font-semibold sm:text-2xl">
             All {offer.meal_count} meals collected{" "}
@@ -69,15 +69,15 @@ function Outcome({ offer }: { offer: OfferDetail }) {
       ) : null}
 
       {(offer.status === "fallback" || offer.status === "partially_collected" || offer.status === "expired") ? (
-        <div className="flex items-start gap-4 rounded-card border border-dashed border-white/25 bg-panel p-5 text-white" role="status">
-          {offer.status === "expired" ? <TimerOff className="size-8 shrink-0 text-orange" aria-hidden /> : <Recycle className="size-8 shrink-0 text-sky" aria-hidden />}
+        <div className="flex items-start gap-4 rounded-card border border-dashed border-ink/25 bg-panel p-5 text-ink" role="status">
+          {offer.status === "expired" ? <TimerOff className="size-8 shrink-0 text-saffron" aria-hidden /> : <Recycle className="size-8 shrink-0 text-leaf" aria-hidden />}
           <div>
             <p className="text-lg font-semibold">
               {offer.status === "partially_collected"
                 ? `${offer.meals_collected} of ${offer.meal_count} meals collected; the rest had a recorded outcome.`
                 : offer.status === "expired" ? "Safe window closed." : "Nobody could reach it in time, so it went to a fallback."}
             </p>
-            {fallback ? <p className="mt-1 text-white/80">{fallback.message}</p> : null}
+            {fallback ? <p className="mt-1 text-ink/85">{fallback.message}</p> : null}
             <SimulatedBadge className="mt-2" label="Partner simulated" />
           </div>
         </div>
@@ -115,7 +115,7 @@ export function OfferTimeline() {
       <main className="mx-auto max-w-[1240px] px-5 py-12 lg:px-8">
         {poll.error ? (
           poll.error instanceof ApiError && poll.error.status === 404
-            ? <EmptyState title="Offer not found">It may have been cleared by a demo reset. <Link className="font-semibold text-sky" href="/board">Back to the Live Board</Link></EmptyState>
+            ? <EmptyState title="Offer not found">It may have been cleared by a demo reset. <Link className="font-semibold text-leaf" href="/board">Back to the Live Board</Link></EmptyState>
             : <ErrorState error={poll.error} onRetry={poll.refresh} />
         ) : <LoadingBlock label="Loading offer" />}
       </main>
@@ -130,7 +130,7 @@ export function OfferTimeline() {
 
   return (
     <main className="mx-auto max-w-[1240px] px-5 py-12 lg:px-8">
-      <Link href="/board" className="inline-flex items-center gap-1.5 text-sm font-medium text-sky hover:underline">
+      <Link href="/board" className="inline-flex items-center gap-1.5 text-sm font-medium text-leaf hover:underline">
         <ArrowLeft className="size-4" aria-hidden /> Live Board
       </Link>
 
@@ -142,30 +142,30 @@ export function OfferTimeline() {
             <img src={offer.photo_url} alt={`Photo of ${dishNames(offer)}`} className="h-56 w-full object-cover md:h-full md:w-64" />
           ) : null}
           <div className="p-5 sm:p-7">
-            <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-white/70">
+            <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-ink/78">
               <MapPin className="size-4" aria-hidden /> {offer.restaurant_name}
               <span aria-hidden>·</span> listed {fmtTimeDay(offer.created_at, now || undefined)}
               {isSimulatedOffer(offer) ? <SimulatedBadge /> : null}
             </div>
             <div className="mt-2 flex flex-wrap items-start justify-between gap-4">
-              <h1 className="display text-4xl text-white sm:text-5xl">
+              <h1 className="display text-4xl text-ink sm:text-5xl">
                 <span className="tabular">{offer.meal_count}</span> meals · {dishNames(offer)}
               </h1>
               <StatusChip kind="offer" status={offer.status} size="lg" />
             </div>
-            <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-white/75">
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-ink/78">
               <DietTag diet={offer.diet} />
               <span>Cooked {fmtTime(offer.cooked_at)}</span>
               <span aria-hidden>·</span>
-              <span>Safe until <b className="text-white">{fmtTime(offer.safe_until)}</b></span>
+              <span>Safe until <b className="text-ink">{fmtTime(offer.safe_until)}</b></span>
               {offer.pickup_notes ? <><span aria-hidden>·</span><span>Pickup: {offer.pickup_notes}</span></> : null}
             </div>
 
             <div className="mt-5 grid items-end gap-5 lg:grid-cols-[auto_1fr]">
               <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-white/60">{finished ? "Safe window" : "Safe for"}</p>
+                <p className="text-xs font-medium uppercase tracking-wider text-ink/72">{finished ? "Safe window" : "Safe for"}</p>
                 {finished ? (
-                  <p className="text-2xl font-semibold text-white/65">Ended {fmtTime(offer.safe_until)}</p>
+                  <p className="text-2xl font-semibold text-ink/72">Ended {fmtTime(offer.safe_until)}</p>
                 ) : (
                   <Countdown to={offer.safe_until} size="xl" urgentMins={20} doneText="Window closed" />
                 )}
@@ -177,8 +177,8 @@ export function OfferTimeline() {
       </Card>
 
       {guardFlag ? (
-        <p className="mt-4 flex items-start gap-2 rounded-2xl border border-orange/60 bg-orange/[0.06] px-4 py-3 text-[15px] text-white">
-          <ShieldAlert className="mt-0.5 size-5 shrink-0 text-orange" aria-hidden /> {guardFlag.message}
+        <p className="mt-4 flex items-start gap-2 rounded-2xl border border-saffron/60 bg-saffron/[0.06] px-4 py-3 text-[15px] text-ink">
+          <ShieldAlert className="mt-0.5 size-5 shrink-0 text-saffron" aria-hidden /> {guardFlag.message}
         </p>
       ) : null}
 
@@ -188,7 +188,7 @@ export function OfferTimeline() {
         <Card className="mt-4 p-5">
           <div className="grid items-center gap-4 md:grid-cols-[1fr_auto]">
             <RiskMeter pFail={offer.risk.highest_p_fail} threshold={offer.risk.threshold} label="Highest failure risk" />
-            <p className="text-sm font-semibold text-white/80 md:max-w-xs">
+            <p className="text-sm font-semibold text-ink/85 md:max-w-xs">
               {offer.risk.standby_active
                 ? "A backup is involved. If a pickup fails, it takes over instantly."
                 : offer.risk.highest_p_fail > offer.risk.threshold
@@ -201,7 +201,7 @@ export function OfferTimeline() {
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.5fr_1fr]">
         <section aria-labelledby="assignments-title">
-          <h2 id="assignments-title" className="text-2xl font-semibold tracking-tight text-white">Who it went to</h2>
+          <h2 id="assignments-title" className="text-2xl font-semibold tracking-tight text-ink">Who it went to</h2>
           {ordered.length === 0 ? (
             <div className="mt-4">
               <EmptyState icon={<ClipboardList className="size-10" aria-hidden />} title="No one offered yet">
@@ -226,8 +226,8 @@ export function OfferTimeline() {
 
         <section aria-labelledby="timeline-title">
           <Card className="p-5 sm:p-6">
-            <h2 id="timeline-title" className="text-2xl font-semibold tracking-tight text-white">Timeline</h2>
-            <p className="mt-1 text-sm text-white/65">Every decision, in order, with its reason. Times in IST.</p>
+            <h2 id="timeline-title" className="text-2xl font-semibold tracking-tight text-ink">Timeline</h2>
+            <p className="mt-1 text-sm text-ink/72">Every decision, in order, with its reason. Times in IST.</p>
             <div className="mt-5"><Timeline events={offer.timeline} /></div>
           </Card>
         </section>

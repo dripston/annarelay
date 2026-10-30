@@ -1,45 +1,40 @@
 @import "tailwindcss";
 
 /*
-  AnnaRelay design system, matched to the Aceternity "Inference" landing page.
-  Values measured from the reference: ink #0A0A0A canvas, warm "paper" #F2EFE9 type, accent blue #0099FF,
-  amber #F0B24A for active / attention, emerald #10B981 for live / success, neutral panels, zinc light surfaces.
+  AnnaRelay design system: warm and human.
+  A warm paper page, near-black ink type, leaf green as the brand, saffron for attention and calls
+  to action, turmeric for highlights. Big headings in Fraunces (a soft serif), everything else in
+  Plus Jakarta Sans.
 
   Token names are semantic and shared by every component:
-    navy   = ink (the canvas)          white  = paper (type on dark, light pills)
-    sky    = accent blue (text, bars)  blue   = deeper accent blue (fills with paper text)
-    orange = amber (attention; ink text on it)   emerald = success
-    snow / mist / zinc = the light product frame
+    paper   = the page              ink     = text and dark fills (ink buttons carry paper text)
+    leaf    = brand / accent text, bars, links       forest = deep brand fills (paper text on it)
+    saffron = attention, warnings, "needs you"       success = done / live
+    turmeric = decorative highlight (never text)     cream  = soft alternate section background
+    panel / raised = card surfaces                   line   = hairlines and borders
+    snow / mist / zinc = light neutral surfaces
 */
-:root {
-  --color-navy: #0a0a0a;
-  --color-white: #f2efe9;
-  --color-sky: #0099ff;
-  --color-blue: #0082fb;
-  --color-orange: #f0b24a;
-  --color-emerald: #10b981;
-}
-
 @theme {
   --color-*: initial;
-  --color-navy: #0a0a0a;
-  --color-white: #f2efe9;
-  --color-sky: #0099ff;
-  --color-blue: #0082fb;
-  --color-orange: #f0b24a;
-  --color-emerald: #10b981;
+  --color-paper: #fbf6ee;
+  --color-ink: #1e2620;
+  --color-leaf: #1f7a4c;
+  --color-forest: #14532f;
+  --color-saffron: #c2601a;
+  --color-success: #23864f;
+  --color-turmeric: #f2b544;
+  --color-cream: #f4ebdd;
 
-  /* neutral surfaces on the ink canvas */
-  --color-panel: #121212;
-  --color-raised: #1a1a1a;
-  --color-line: #262626;
+  --color-panel: #ffffff;
+  --color-raised: #fffcf7;
+  --color-line: #e8dfd1;
 
-  /* light product frame (zinc) */
   --color-snow: #ffffff;
-  --color-mist: #f4f4f5;
-  --color-zinc: #e4e4e7;
+  --color-mist: #f6f0e6;
+  --color-zinc: #e8dfd1;
 
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   --radius-card: 1.25rem;
@@ -62,8 +57,8 @@
     100% { opacity: 1; transform: scale(1); }
   }
   @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 color-mix(in srgb, #0099ff 55%, transparent); }
-    100% { box-shadow: 0 0 0 16px color-mix(in srgb, #0099ff 0%, transparent); }
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, #1f7a4c 45%, transparent); }
+    100% { box-shadow: 0 0 0 16px color-mix(in srgb, #1f7a4c 0%, transparent); }
   }
   @keyframes dash {
     to { stroke-dashoffset: -16; }
@@ -79,20 +74,25 @@
 }
 
 html {
-  background: var(--color-navy);
-  color-scheme: dark;
+  background: var(--color-paper);
+  color-scheme: light;
 }
 
 body {
-  background: var(--color-navy);
-  color: var(--color-white);
-  font-feature-settings: "ss01";
+  background: var(--color-paper);
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--color-sky);
-  color: var(--color-navy);
+  background: var(--color-turmeric);
+  color: var(--color-ink);
+}
+
+/* cards lift gently off the paper (dark designs used borders alone; light ones need a shadow) */
+.bg-panel,
+.bg-raised {
+  box-shadow: 0 1px 2px rgb(30 38 32 / 0.04), 0 10px 28px -16px rgb(30 38 32 / 0.16);
 }
 
 /* node flash when a relay packet arrives (used from inline styles, so declared outside @theme) */
@@ -108,31 +108,27 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* display type: Plus Jakarta Sans 500 with tight tracking (it sets wider than Inter) */
+/* display type: Fraunces, soft and a touch tight at large sizes */
 .display {
+  font-family: var(--font-display);
   font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 1.02;
+  font-variation-settings: "SOFT" 60;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
 }
 
-/* hairline grid texture: an SVG pattern of 1px lines (flat, no gradients) */
+/* hairline grid texture: 1px ink lines */
 .grid-lines {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='104' height='104'%3E%3Cpath d='M104 0V104M0 104H104' fill='none' stroke='%23F2EFE9' stroke-opacity='0.05'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='104' height='104'%3E%3Cpath d='M104 0V104M0 104H104' fill='none' stroke='%231E2620' stroke-opacity='0.06'/%3E%3C/svg%3E");
 }
 
 /* dot texture for map-like panels */
 .dot-field {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23F2EFE9' fill-opacity='0.12'/%3E%3C/svg%3E");
-}
-
-/* light dashboard frame keeps its own form styling */
-input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.6;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Ccircle cx='2' cy='2' r='1' fill='%231E2620' fill-opacity='0.12'/%3E%3C/svg%3E");
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-sky);
+  outline: 2px solid var(--color-leaf);
   outline-offset: 2px;
 }
 

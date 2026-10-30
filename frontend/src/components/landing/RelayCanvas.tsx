@@ -44,26 +44,26 @@ function Node({ n, animate = false }: { n: NodeSpec; animate?: boolean }) {
     <div className="relative rounded-2xl border border-line bg-panel p-4 [&_svg]:size-4" style={{ width: n.w }}>
       {animate ? (
         <span
-          className="pointer-events-none absolute -inset-px rounded-2xl border border-orange/80 shadow-[0_0_24px_-4px_rgb(240_178_74/0.55)]"
+          className="pointer-events-none absolute -inset-px rounded-2xl border border-saffron/80 shadow-[0_0_24px_-4px_rgb(240_178_74/0.55)]"
           style={{ animation: `node-glow ${CYCLE}s linear infinite`, animationDelay: `${n.arrive * CYCLE - 0.15}s`, opacity: 0 }}
           aria-hidden
         />
       ) : null}
-      <div className="flex items-center gap-2 text-white">
-        <span className="text-sky">{n.icon}</span>
+      <div className="flex items-center gap-2 text-ink">
+        <span className="text-leaf">{n.icon}</span>
         <span className="text-sm font-medium">{n.title}</span>
-        {n.tag ? <span className="ml-auto rounded-md bg-white/[0.06] px-1.5 py-0.5 font-mono text-[10px] text-white/55">{n.tag}</span> : null}
+        {n.tag ? <span className="ml-auto rounded-md bg-ink/[0.06] px-1.5 py-0.5 font-mono text-[10px] text-ink/68">{n.tag}</span> : null}
       </div>
-      <div className="mt-2.5 space-y-0.5 text-[12.5px] text-white/55">
+      <div className="mt-2.5 space-y-0.5 text-[12.5px] text-ink/68">
         {n.lines.map((l) => <p key={l}>{l}</p>)}
       </div>
       {n.port ? (
-        <p className="mt-3 flex items-center justify-end gap-2 text-[11px] text-white/45">
+        <p className="mt-3 flex items-center justify-end gap-2 text-[11px] text-ink/62">
           {n.port}
-          <span className={cx("size-2.5 rounded-full border-2", n.active ? "border-orange bg-orange" : "border-white bg-navy")} aria-hidden />
+          <span className={cx("size-2.5 rounded-full border-2", n.active ? "border-saffron bg-saffron" : "border-ink bg-paper")} aria-hidden />
         </p>
       ) : (
-        <p className="mt-3 flex items-center gap-1.5 text-[11px] text-white/40">
+        <p className="mt-3 flex items-center gap-1.5 text-[11px] text-ink/62">
           <Check className="size-3" aria-hidden /> Runs automatically
         </p>
       )}
@@ -87,13 +87,13 @@ export function RelayCanvas() {
               A voice note goes in. Safety is double-checked, the most reliable home is chosen, and risk is watched until the food is collected.
             </Lede>
           </div>
-          <span className="inline-flex items-center gap-2 text-sm text-white/55">
-            <Brain className="size-4 text-sky" aria-hidden /> AI suggests, plain code decides
+          <span className="inline-flex items-center gap-2 text-sm text-ink/68">
+            <Brain className="size-4 text-leaf" aria-hidden /> AI suggests, plain code decides
           </span>
         </div>
       </Container>
 
-      <div className="grid-lines mt-14 border-y border-white/[0.06]">
+      <div className="grid-lines mt-14 border-y border-ink/[0.06]">
         <Container>
           {/* laptop and up: wired canvas */}
           <div className="relative mx-auto hidden h-[470px] w-[1160px] xl:block">
@@ -104,7 +104,7 @@ export function RelayCanvas() {
               {EDGES.map((e, i) => (
                 <g key={i}>
                   {/* track */}
-                  <use href={`#relay-edge-${i}`} stroke="#F2EFE9" strokeOpacity={0.12} strokeWidth={1.5} />
+                  <use href={`#relay-edge-${i}`} stroke="#1E2620" strokeOpacity={0.12} strokeWidth={1.5} />
                   {/* current flowing along the wire, in the direction of travel */}
                   <use
                     href={`#relay-edge-${i}`}

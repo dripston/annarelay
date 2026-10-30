@@ -16,9 +16,9 @@ export const INTENT_LABEL: Record<ReplyIntent, string> = {
 
 function Bar({ value, strong, warn }: { value: number; strong?: boolean; warn?: boolean }) {
   return (
-    <div className="h-1.5 w-full rounded-full bg-white/[0.07]">
+    <div className="h-1.5 w-full rounded-full bg-ink/[0.07]">
       <div
-        className={cx("h-full rounded-full", warn ? "bg-orange" : strong ? "bg-sky" : "bg-sky/35")}
+        className={cx("h-full rounded-full", warn ? "bg-saffron" : strong ? "bg-leaf" : "bg-leaf/35")}
         style={{ width: `${Math.max(2, Math.min(100, value * 100))}%` }}
       />
     </div>
@@ -37,10 +37,10 @@ export function UnderstoodCard({ understood, compact = false, className }: { und
   const unavailable = u.source === "fallback_rules";
 
   return (
-    <div className={cx("rounded-xl border border-white/[0.08] bg-white/[0.03] p-3.5 text-sm", className)}>
+    <div className={cx("rounded-xl border border-ink/[0.08] bg-ink/[0.03] p-3.5 text-sm", className)}>
       <div className="flex items-start justify-between gap-2">
-        <p className="flex min-w-0 items-start gap-2 text-white/90">
-          <MessageSquareQuote className="mt-0.5 size-4 shrink-0 text-sky" aria-hidden />
+        <p className="flex min-w-0 items-start gap-2 text-ink/90">
+          <MessageSquareQuote className="mt-0.5 size-4 shrink-0 text-leaf" aria-hidden />
           <span className="italic">&ldquo;{u.text}&rdquo;</span>
         </p>
         <AiBadge source={u.source} probability={unavailable ? null : u.intent_probability} />
@@ -48,39 +48,39 @@ export function UnderstoodCard({ understood, compact = false, className }: { und
 
       {unavailable ? null : (
         <>
-          <p className="mt-3 font-mono text-[10px] tracking-[0.14em] text-white/40 uppercase">Understood as</p>
+          <p className="mt-3 text-[13px] text-ink/62 font-semibold">Understood as</p>
           <ul className="mt-2 space-y-2">
             {top.map((k) => (
               <li key={k} className="grid grid-cols-[minmax(0,8.5rem)_1fr_2.5rem] items-center gap-2.5">
-                <span className={cx("truncate", k === u.intent ? "font-medium text-white" : "text-white/50")}>{INTENT_LABEL[k]}</span>
+                <span className={cx("truncate", k === u.intent ? "font-medium text-ink" : "text-ink/68")}>{INTENT_LABEL[k]}</span>
                 <Bar value={u.probabilities[k] ?? 0} strong={k === u.intent} />
-                <span className="tabular text-right text-white/60">{pct(u.probabilities[k] ?? 0)}</span>
+                <span className="tabular text-right text-ink/72">{pct(u.probabilities[k] ?? 0)}</span>
               </li>
             ))}
             <li className="grid grid-cols-[minmax(0,8.5rem)_1fr_2.5rem] items-center gap-2.5">
-              <span className={cx("truncate", riskHigh ? "font-medium text-white" : "text-white/50")}>Might not make it</span>
+              <span className={cx("truncate", riskHigh ? "font-medium text-ink" : "text-ink/68")}>Might not make it</span>
               <Bar value={u.at_risk_probability} warn={riskHigh} />
-              <span className="tabular text-right text-white/60">{pct(u.at_risk_probability)}</span>
+              <span className="tabular text-right text-ink/72">{pct(u.at_risk_probability)}</span>
             </li>
           </ul>
         </>
       )}
 
       {(u.meals !== null || u.eta) && !compact ? (
-        <p className="mt-2.5 text-white/60">
-          {u.meals !== null ? <>Meals mentioned: <b className="font-medium text-white">{u.meals}</b>. </> : null}
-          {u.eta ? <>Arriving around <b className="font-medium text-white">{fmtTime(u.eta)}</b>.</> : null}
+        <p className="mt-2.5 text-ink/72">
+          {u.meals !== null ? <>Meals mentioned: <b className="font-medium text-ink">{u.meals}</b>. </> : null}
+          {u.eta ? <>Arriving around <b className="font-medium text-ink">{fmtTime(u.eta)}</b>.</> : null}
         </p>
       ) : null}
 
       {u.needs_clarification && u.clarification_question ? (
-        <p className="mt-3 flex items-start gap-2 rounded-lg border border-orange/60 bg-orange/[0.06] px-2.5 py-2 text-white">
-          <CircleHelp className="mt-0.5 size-4 shrink-0 text-orange" aria-hidden />
+        <p className="mt-3 flex items-start gap-2 rounded-lg border border-saffron/60 bg-saffron/[0.06] px-2.5 py-2 text-ink">
+          <CircleHelp className="mt-0.5 size-4 shrink-0 text-saffron" aria-hidden />
           {u.clarification_question}
         </p>
       ) : null}
 
-      <p className={cx("mt-3 flex items-start gap-1.5 font-medium", changed ? "text-sky" : "text-white/55")}>
+      <p className={cx("mt-3 flex items-start gap-1.5 font-medium", changed ? "text-leaf" : "text-ink/68")}>
         <Zap className="mt-0.5 size-3.5 shrink-0" aria-hidden />
         {u.action_taken}
       </p>

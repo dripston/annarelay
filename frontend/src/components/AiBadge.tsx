@@ -28,7 +28,7 @@ export function AiBadge({ source, probability, className }: { source: AiSource; 
       title={TITLE[source]}
       className={cx(
         "inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[11px] font-medium whitespace-nowrap",
-        isReal ? "border border-sky/30 bg-sky/10 text-sky" : "border border-dashed border-white/25 text-white/65",
+        isReal ? "border border-leaf/30 bg-leaf/10 text-leaf" : "border border-dashed border-ink/25 text-ink/72",
         className,
       )}
     >

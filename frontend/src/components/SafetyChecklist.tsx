@@ -21,16 +21,16 @@ export function SafetyChecklist({
       id={id}
       className={cx(
         "rounded-card border bg-panel p-5 transition-shadow",
-        highlight && !done ? "border-2 border-orange ring-4 ring-orange/30" : "border-line",
+        highlight && !done ? "border-2 border-saffron ring-4 ring-saffron/30" : "border-line",
       )}
     >
       <legend className="sr-only">Food safety checklist</legend>
       <div className="flex items-center justify-between gap-2">
-        <p className="flex items-center gap-2 text-lg font-medium text-white">
-          <ClipboardCheck className="size-5 text-sky" aria-hidden />
+        <p className="flex items-center gap-2 text-lg font-medium text-ink">
+          <ClipboardCheck className="size-5 text-leaf" aria-hidden />
           Food safety checklist
         </p>
-        <span className={cx("text-sm font-semibold", done ? "text-sky" : "text-white/60")}>
+        <span className={cx("text-sm font-semibold", done ? "text-leaf" : "text-ink/72")}>
           {CHECKLIST.filter((c) => value[c.key]).length} of 3 · required
         </span>
       </div>
@@ -42,7 +42,7 @@ export function SafetyChecklist({
               key={c.key}
               className={cx(
                 "flex cursor-pointer items-center gap-3 rounded-2xl border-2 px-4 py-3 transition-colors",
-                on ? "border-sky/60 bg-sky/[0.06]" : "border-line hover:border-sky/50",
+                on ? "border-leaf/60 bg-leaf/[0.06]" : "border-line hover:border-leaf/50",
               )}
             >
               <input
@@ -54,15 +54,15 @@ export function SafetyChecklist({
               <span
                 className={cx(
                   "flex size-7 shrink-0 items-center justify-center rounded-lg border-2",
-                  on ? "border-sky/60 bg-blue text-white" : "border-white/25 bg-transparent",
+                  on ? "border-leaf/60 bg-forest text-paper" : "border-ink/25 bg-transparent",
                 )}
                 aria-hidden
               >
                 {on ? <Check className="size-4.5" strokeWidth={3} /> : null}
               </span>
               <span>
-                <span className="block text-base font-semibold text-white">{c.label}</span>
-                <span className="block text-sm text-white/65">{c.hint}</span>
+                <span className="block text-base font-semibold text-ink">{c.label}</span>
+                <span className="block text-sm text-ink/72">{c.hint}</span>
               </span>
             </label>
           );

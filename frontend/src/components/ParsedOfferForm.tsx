@@ -85,14 +85,14 @@ export function ParsedOfferForm({
 
       <Card className="p-5">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="text-lg font-medium text-white">What we understood</h3>
-          <span className="text-sm text-white/60">Edit anything that&apos;s off</span>
+          <h3 className="text-lg font-medium text-ink">What we understood</h3>
+          <span className="text-sm text-ink/72">Edit anything that&apos;s off</span>
         </div>
 
         <div className="mt-4">
           <FieldLabel missing={missing("items")}>Food items</FieldLabel>
           {draft.items.length === 0 ? (
-            <p className="rounded-2xl bg-white/[0.03] px-4 py-3 text-sm text-white/70">No dishes recognised. Add them below.</p>
+            <p className="rounded-2xl bg-ink/[0.03] px-4 py-3 text-sm text-ink/78">No dishes recognised. Add them below.</p>
           ) : (
             <ul className="space-y-2">
               {draft.items.map((it, i) => (
@@ -123,7 +123,7 @@ export function ParsedOfferForm({
                   <button
                     type="button"
                     onClick={() => set("items", draft.items.filter((_, j) => j !== i))}
-                    className="rounded-xl p-2 text-white/65 hover:bg-white/5 hover:text-white"
+                    className="rounded-xl p-2 text-ink/72 hover:bg-ink/5 hover:text-ink"
                     aria-label={`Remove ${it.name || "item"}`}
                   >
                     <X className="size-5" aria-hidden />
@@ -135,7 +135,7 @@ export function ParsedOfferForm({
           <button
             type="button"
             onClick={() => set("items", [...draft.items, { name: "", quantity: Number(draft.meal_count) || 1, unit: "plates" }])}
-            className="mt-2 inline-flex items-center gap-1.5 rounded-xl px-2 py-1.5 text-sm font-semibold text-sky hover:bg-sky/10"
+            className="mt-2 inline-flex items-center gap-1.5 rounded-xl px-2 py-1.5 text-sm font-semibold text-leaf hover:bg-leaf/10"
           >
             <Plus className="size-4" aria-hidden /> Add a dish
           </button>
@@ -188,11 +188,11 @@ export function ParsedOfferForm({
         </div>
 
         {parsed.photo_check ? (
-          <p className="mt-4 flex flex-wrap items-center gap-2 rounded-2xl bg-white/[0.03] px-4 py-3 text-sm text-white">
-            <Camera className="size-4 text-sky" aria-hidden />
+          <p className="mt-4 flex flex-wrap items-center gap-2 rounded-2xl bg-ink/[0.03] px-4 py-3 text-sm text-ink">
+            <Camera className="size-4 text-leaf" aria-hidden />
             <b>Photo check (advisory):</b>
             {parsed.photo_check.matches_description === false ? "doesn't seem to match the description." : parsed.photo_check.matches_description ? "matches the description." : "unclear."}
-            <span className="text-white/75">{parsed.photo_check.note}</span>
+            <span className="text-ink/78">{parsed.photo_check.note}</span>
             <AiBadge source="llm" />
           </p>
         ) : null}

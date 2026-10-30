@@ -23,15 +23,15 @@ export function DemoControl({
       disabled={disabled || busy}
       title={title}
       className={cx(
-        "inline-flex items-center gap-2.5 rounded-xl border border-dashed border-white/25 bg-white/[0.02] px-3 py-1.5 text-left",
-        "transition-colors hover:border-white/50 hover:bg-white/[0.05] disabled:cursor-not-allowed disabled:opacity-40",
+        "inline-flex items-center gap-2.5 rounded-xl border border-dashed border-ink/25 bg-ink/[0.02] px-3 py-1.5 text-left",
+        "transition-colors hover:border-ink/50 hover:bg-ink/[0.05] disabled:cursor-not-allowed disabled:opacity-40",
         className,
       )}
     >
-      <span className="text-sky">{busy ? <LoaderCircle className="size-4 animate-spin" aria-hidden /> : icon}</span>
+      <span className="text-leaf">{busy ? <LoaderCircle className="size-4 animate-spin" aria-hidden /> : icon}</span>
       <span className="flex flex-col leading-tight">
-        <span className="font-mono text-[9.5px] tracking-[0.14em] text-white/45 uppercase">Demo control</span>
-        <span className="text-[13px] font-medium text-white">{children}</span>
+        <span className="text-[13px] text-ink/62 font-semibold">Demo control</span>
+        <span className="text-[13px] font-medium text-ink">{children}</span>
       </span>
     </button>
   );

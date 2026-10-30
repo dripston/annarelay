@@ -10,7 +10,7 @@ export function Container({ children, className }: { children: ReactNode; classN
 export function SectionTitle({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <Reveal y={28}>
-      <h2 className={cx("display text-4xl text-white sm:text-5xl lg:text-[3.5rem]", className)}>{children}</h2>
+      <h2 className={cx("display text-4xl text-ink sm:text-5xl lg:text-[3.5rem]", className)}>{children}</h2>
     </Reveal>
   );
 }
@@ -18,13 +18,13 @@ export function SectionTitle({ children, className }: { children: ReactNode; cla
 export function Lede({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <Reveal delay={120}>
-      <p className={cx("max-w-xl text-lg leading-relaxed text-white/55", className)}>{children}</p>
+      <p className={cx("max-w-xl text-lg leading-relaxed text-ink/68", className)}>{children}</p>
     </Reveal>
   );
 }
 
 /** Small mono caption, used for "Example" and data labels. */
 export function Mono({ children, className }: { children: ReactNode; className?: string }) {
-  return <span className={cx("font-mono text-[11px] tracking-[0.12em] text-white/40 uppercase", className)}>{children}</span>;
+  return <span className={cx("text-[13px] text-ink/62 font-semibold", className)}>{children}</span>;
 }
 

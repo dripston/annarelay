@@ -8,16 +8,16 @@ export function StatTile({
     <div
       className={cx(
         "flex min-w-0 flex-col justify-between rounded-card border p-5",
-        hero ? "border-sky/25 bg-sky/[0.07] text-white" : "border-line bg-panel text-white",
+        hero ? "border-leaf/25 bg-leaf/[0.07] text-ink" : "border-line bg-panel text-ink",
         className,
       )}
     >
-      <p className={cx("flex items-center gap-2 text-sm", hero ? "text-sky" : "text-white/55")}>
+      <p className={cx("flex items-center gap-2 text-sm", hero ? "text-leaf" : "text-ink/68")}>
         {icon}
         {label}
       </p>
       <p className={cx("tabular display mt-4", hero ? "text-7xl sm:text-8xl" : "text-4xl")}>{value}</p>
-      {sub ? <p className={cx("mt-2 text-sm", hero ? "text-white/65" : "text-white/45")}>{sub}</p> : null}
+      {sub ? <p className={cx("mt-2 text-sm", hero ? "text-ink/72" : "text-ink/62")}>{sub}</p> : null}
     </div>
   );
 }

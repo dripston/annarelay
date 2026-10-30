@@ -21,8 +21,8 @@ interface ParseResult { parsed: ParsedOffer; photo_url: string | null; transcrip
 function Step({ n, title, children, done }: { n: number; title: string; children: React.ReactNode; done?: boolean }) {
   return (
     <section className="animate-enter">
-      <h2 className="mb-3 flex items-center gap-2.5 text-lg font-medium text-white">
-        <span className={cx("tabular flex size-7 items-center justify-center rounded-full text-sm", done ? "bg-blue text-white" : "bg-raised text-white")}>
+      <h2 className="mb-3 flex items-center gap-2.5 text-lg font-medium text-ink">
+        <span className={cx("tabular flex size-7 items-center justify-center rounded-full text-sm", done ? "bg-forest text-paper" : "bg-raised text-ink")}>
           {done ? <Check className="size-4" aria-hidden /> : n}
         </span>
         {title}
@@ -142,20 +142,20 @@ export default function RestaurantPage() {
                       onClick={() => setRestaurantId(r.id)}
                       className={cx(
                         "flex items-center gap-3 rounded-2xl border-2 p-4 text-left transition-colors",
-                        on ? "border-sky/60 bg-blue text-white" : "border-line bg-white/[0.03] text-white hover:border-sky/60",
+                        on ? "border-leaf/60 bg-forest text-paper" : "border-line bg-ink/[0.03] text-ink hover:border-leaf/60",
                       )}
                     >
-                      <Store className={cx("size-6 shrink-0", on ? "text-white" : "text-sky")} aria-hidden />
+                      <Store className={cx("size-6 shrink-0", on ? "text-ink" : "text-leaf")} aria-hidden />
                       <span>
                         <span className="block font-medium">{r.name}</span>
-                        <span className={cx("block text-sm", on ? "text-white/75" : "text-white/65")}>{r.area}</span>
+                        <span className={cx("block text-sm", on ? "text-ink/78" : "text-ink/72")}>{r.area}</span>
                       </span>
                     </button>
                   );
                 })}
               </div>
               {selectedId ? (
-                <Link href={`/impact/${selectedId}`} className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-sky hover:underline">
+                <Link href={`/impact/${selectedId}`} className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-leaf hover:underline">
                   <ChartNoAxesColumn className="size-4" aria-hidden /> See this restaurant&apos;s impact
                 </Link>
               ) : null}
@@ -183,7 +183,7 @@ export default function RestaurantPage() {
           >
             {parsing ? "Understanding…" : <><Sparkles className="size-5" aria-hidden /> Understand my message</>}
           </Button>
-          {!selectedId ? <p className="mt-2 text-center text-sm text-white/65">Choose your restaurant above first.</p> : null}
+          {!selectedId ? <p className="mt-2 text-center text-sm text-ink/72">Choose your restaurant above first.</p> : null}
         </Step>
 
         {result && draft ? (
@@ -205,10 +205,10 @@ export default function RestaurantPage() {
               />
 
               {showErrors && problems.length ? (
-                <ul className="mt-5 space-y-1 rounded-2xl border border-orange/70 bg-orange/[0.06] p-4 text-[15px] text-white" role="alert">
+                <ul className="mt-5 space-y-1 rounded-2xl border border-saffron/70 bg-saffron/[0.06] p-4 text-[15px] text-ink" role="alert">
                   {problems.map((p) => (
                     <li key={p.message} className="flex gap-2">
-                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-orange" aria-hidden />
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-saffron" aria-hidden />
                       {p.message}
                     </li>
                   ))}
@@ -218,7 +218,7 @@ export default function RestaurantPage() {
               <Button size="lg" className="mt-5 w-full" busy={submitting} onClick={() => void submit()}>
                 {submitting ? "Sending…" : <><Send className="size-5" aria-hidden /> Send to recipients</>}
               </Button>
-              <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-sm text-white/65">
+              <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-sm text-ink/72">
                 Only shelters that already need this food will be offered it. <ArrowRight className="size-3.5" aria-hidden /> You&apos;ll see each step live.
               </p>
             </Step>

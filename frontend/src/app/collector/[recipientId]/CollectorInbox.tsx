@@ -89,31 +89,31 @@ function EntryCard({ e, onChanged }: { e: InboxEntry; onChanged: () => void }) {
   }
 
   return (
-    <Card className={e.is_standby ? "border-2 border-dashed border-orange! p-5" : "p-5"}>
+    <Card className={e.is_standby ? "border-2 border-dashed border-saffron! p-5" : "p-5"}>
       {e.is_standby ? (
-        <p className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-orange px-2.5 py-1 text-xs font-medium text-navy">
+        <p className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-saffron px-2.5 py-1 text-xs font-medium text-paper">
           <LifeBuoy className="size-3.5" aria-hidden /> Backup request
         </p>
       ) : null}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="flex items-center gap-1.5 text-sm font-semibold text-white/70">
+          <p className="flex items-center gap-1.5 text-sm font-semibold text-ink/78">
             <MapPin className="size-3.5" aria-hidden /> {e.offer.restaurant_name} · {e.distance_km} km
           </p>
-          <h2 className="mt-1 text-2xl font-semibold tracking-tight text-white">
+          <h2 className="mt-1 text-2xl font-semibold tracking-tight text-ink">
             <span className="tabular">{e.meals}</span> meals · {dishNames(e.offer)}
           </h2>
         </div>
         <StatusChip kind="assignment" status={e.status} />
       </div>
-      <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-white/75">
+      <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-ink/78">
         <DietTag diet={e.offer.diet} />
-        <span>Safe until <b className="text-white">{fmtTime(e.offer.safe_until)}</b></span>
+        <span>Safe until <b className="text-ink">{fmtTime(e.offer.safe_until)}</b></span>
         {e.offer.pickup_notes ? <span>· {e.offer.pickup_notes}</span> : null}
       </div>
 
-      <div className="mt-4 rounded-2xl bg-white/[0.03] p-4">
-        <p className="text-lg font-medium text-white">{prompt(e)}</p>
+      <div className="mt-4 rounded-2xl bg-ink/[0.03] p-4">
+        <p className="text-lg font-medium text-ink">{prompt(e)}</p>
         <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1">
           {deadline ? <Countdown to={deadline.to} label={deadline.label} urgentMins={0.5} doneText="Deadline passed" /> : null}
           <Countdown to={e.offer.safe_until} label="Food safe for" size="sm" />
@@ -161,7 +161,7 @@ export function CollectorInbox() {
       <main className="mx-auto max-w-2xl px-5 py-12">
         {poll.error ? (
           poll.error instanceof ApiError && poll.error.status === 404
-            ? <EmptyState title="Recipient not found"><Link className="font-semibold text-sky" href="/recipient">Choose your home</Link></EmptyState>
+            ? <EmptyState title="Recipient not found"><Link className="font-semibold text-leaf" href="/recipient">Choose your home</Link></EmptyState>
             : <ErrorState error={poll.error} onRetry={poll.refresh} />
         ) : <LoadingBlock label="Loading inbox" />}
       </main>
@@ -171,19 +171,19 @@ export function CollectorInbox() {
   const r = inbox.recipient;
   return (
     <main className="mx-auto max-w-2xl px-5 py-8 sm:py-14">
-      <div className="rounded-card bg-raised p-5 text-white">
-        <p className="flex items-center gap-2 text-sm font-semibold text-white/75">
+      <div className="rounded-card bg-raised p-5 text-ink">
+        <p className="flex items-center gap-2 text-sm font-semibold text-ink/78">
           <Inbox className="size-4" aria-hidden /> Web inbox · updates every 2 s
         </p>
         <h1 className="display mt-3 text-4xl">{r.name}</h1>
-        <p className="text-white/70">{r.area}</p>
-        <div className="mt-4 rounded-2xl border border-white/[0.06] bg-raised p-3">
+        <p className="text-ink/78">{r.area}</p>
+        <div className="mt-4 rounded-2xl border border-ink/[0.06] bg-raised p-3">
           <ReliabilityBar recipient={r} compact />
           {r.reliability.is_simulated_history ? <SimulatedBadge className="mt-2" label="Simulated history" /> : null}
         </div>
-        <p className="mt-3 text-sm text-white/70">
+        <p className="mt-3 text-sm text-ink/78">
           {r.telegram_linked ? "Telegram is linked too; both stay in sync." : "Works without Telegram."}{" "}
-          <Link href="/recipient" className="inline-flex items-center gap-1 font-semibold text-white underline-offset-2 hover:underline">
+          <Link href="/recipient" className="inline-flex items-center gap-1 font-semibold text-ink underline-offset-2 hover:underline">
             Post a new need <ExternalLink className="size-3" aria-hidden />
           </Link>
         </p>

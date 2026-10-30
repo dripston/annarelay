@@ -55,7 +55,7 @@ function RoleToggle({ role, onChange, disabled }: { role: CallRole; onChange: (r
           disabled={disabled}
           onClick={() => onChange(v)}
           className={cx("flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-            role === v ? "bg-white text-navy" : "text-white/65 hover:text-white")}
+            role === v ? "bg-ink text-paper" : "text-ink/72 hover:text-ink")}
         >
           <Icon className="size-4" aria-hidden /> {label}
         </button>
@@ -120,15 +120,15 @@ export function CallScreen() {
 
   return (
     <main className="relative mx-auto max-w-[1240px] px-5 py-10 lg:px-8 lg:py-14">
-      <div className="pointer-events-none absolute inset-x-0 -top-10 -z-10 h-[520px] bg-[radial-gradient(60%_60%_at_30%_10%,color-mix(in_srgb,#0099ff_14%,transparent),transparent)]" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-0 -top-10 -z-10 h-[520px] bg-[radial-gradient(60%_60%_at_30%_10%,color-mix(in_srgb,#f2b544_14%,transparent),transparent)]" aria-hidden />
 
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] text-sky uppercase">
+          <p className="flex items-center gap-2 text-[13px] text-leaf font-semibold">
             <PhoneCall className="size-3.5" aria-hidden /> AI voice agent
           </p>
-          <h1 className="display mt-3 text-5xl text-white sm:text-6xl">Call AnnaRelay</h1>
-          <p className="mt-3 max-w-xl text-[17px] text-white/65">
+          <h1 className="display mt-3 text-5xl text-ink sm:text-6xl">Call AnnaRelay</h1>
+          <p className="mt-3 max-w-xl text-[17px] text-ink/72">
             No forms. Just talk, in English, Hindi, Kannada, Tamil or any Indian language, and it answers in yours. The card fills itself in as you speak, and nothing is listed until you say yes.
           </p>
         </div>
@@ -136,8 +136,8 @@ export function CallScreen() {
       </div>
 
       {!liveBackend ? (
-        <p className="mt-6 rounded-2xl border border-orange/50 bg-orange/[0.07] px-4 py-3 text-white">
-          The voice agent needs the live backend. Set <code className="font-mono">NEXT_PUBLIC_API_MODE=live</code> and restart the dev server. The <Link className="font-semibold text-sky" href={role === "restaurant" ? "/restaurant" : "/recipient"}>form intake</Link> works in mock mode.
+        <p className="mt-6 rounded-2xl border border-saffron/50 bg-saffron/[0.07] px-4 py-3 text-ink">
+          The voice agent needs the live backend. Set <code className="font-mono">NEXT_PUBLIC_API_MODE=live</code> and restart the dev server. The <Link className="font-semibold text-leaf" href={role === "restaurant" ? "/restaurant" : "/recipient"}>form intake</Link> works in mock mode.
         </p>
       ) : null}
 
@@ -146,15 +146,15 @@ export function CallScreen() {
         <section aria-label="Call" className="flex flex-col rounded-card border border-line bg-panel p-5 sm:p-7">
           <div className="flex flex-col items-center">
             <VoiceOrb mode={mode} level={level} className="max-w-[260px]" />
-            <p className="mt-2 text-center text-base font-medium text-white" aria-live="polite">{statusLine}</p>
-            {state.micError ? <p className="mt-1 text-center text-sm text-orange">{state.micError}</p> : null}
-            {state.notice ? <p className="mt-1 text-center text-sm text-white/55">{state.notice}</p> : null}
+            <p className="mt-2 text-center text-base font-medium text-ink" aria-live="polite">{statusLine}</p>
+            {state.micError ? <p className="mt-1 text-center text-sm text-saffron">{state.micError}</p> : null}
+            {state.notice ? <p className="mt-1 text-center text-sm text-ink/68">{state.notice}</p> : null}
           </div>
 
           {!inCall && state.status !== "ended" ? (
             <div className="mt-6 space-y-5">
               <div>
-                <p className="mb-2 font-mono text-[10.5px] tracking-[0.12em] text-white/45 uppercase">
+                <p className="mb-2 text-[13px] text-ink/62 font-semibold">
                   {role === "restaurant" ? "Calling from (optional, or just say it)" : "Calling for (optional, or just say it)"}
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -165,7 +165,7 @@ export function CallScreen() {
                       onClick={() => setWho(who === d.id ? "" : d.id)}
                       aria-pressed={who === d.id}
                       className={cx("rounded-full border px-3 py-1.5 text-sm transition-colors",
-                        who === d.id ? "border-sky bg-sky/15 text-white" : "border-line text-white/65 hover:text-white")}
+                        who === d.id ? "border-leaf bg-leaf/15 text-ink" : "border-line text-ink/72 hover:text-ink")}
                     >
                       {d.name}
                     </button>
@@ -173,7 +173,7 @@ export function CallScreen() {
                 </div>
               </div>
               <div>
-                <p className="mb-2 font-mono text-[10.5px] tracking-[0.12em] text-white/45 uppercase">Language</p>
+                <p className="mb-2 text-[13px] text-ink/62 font-semibold">Language</p>
                 <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Call language">
                   {LANGS.map(([code, label]) => (
                     <button
@@ -183,7 +183,7 @@ export function CallScreen() {
                       aria-checked={lang === code}
                       onClick={() => setLang(code)}
                       className={cx("rounded-full border px-3 py-1.5 text-sm transition-colors",
-                        lang === code ? "border-sky bg-sky/15 text-white" : "border-line text-white/65 hover:text-white")}
+                        lang === code ? "border-leaf bg-leaf/15 text-ink" : "border-line text-ink/72 hover:text-ink")}
                     >
                       {label}
                     </button>
@@ -194,17 +194,17 @@ export function CallScreen() {
                 type="button"
                 onClick={() => void start()}
                 disabled={!liveBackend}
-                className="group flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-4 text-lg font-semibold text-navy transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
+                className="group flex w-full items-center justify-center gap-3 rounded-full bg-forest px-6 py-4 text-lg font-semibold text-paper shadow-[0_10px_24px_-12px_rgb(20_83_47/0.7)] transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
               >
                 <PhoneCall className="size-5" aria-hidden /> Start the call
                 <ArrowRight className="size-5 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </button>
               <div className="rounded-2xl border border-line bg-raised p-4">
-                <p className="font-mono text-[10.5px] tracking-[0.12em] text-white/45 uppercase">Try saying</p>
-                <ul className="mt-2 space-y-1.5 text-[15px] text-white/80">
+                <p className="text-[13px] text-ink/62 font-semibold">Try saying</p>
+                <ul className="mt-2 space-y-1.5 text-[15px] text-ink/85">
                   {SAY[role].map((s) => <li key={s}>&ldquo;{s}&rdquo;</li>)}
                 </ul>
-                <p className="mt-3 text-[12.5px] text-white/45">
+                <p className="mt-3 text-[12.5px] text-ink/62">
                   Speech: {health?.stt === "ready" ? "Sarvam, multilingual" : "unavailable, so you can type"} · Language model: {health?.llm ?? "…"}
                 </p>
               </div>
@@ -214,16 +214,16 @@ export function CallScreen() {
           {inCall || state.lines.length ? (
             <div ref={scroller} className="mt-6 max-h-[300px] min-h-[160px] flex-1 space-y-3 overflow-y-auto pr-1" aria-live="polite" aria-label="Live captions">
               {lines.map((l) => (
-                <p key={l.id} className={cx("animate-enter text-[15.5px] leading-relaxed", l.speaker === "agent" ? "text-white" : l.final ? "text-white/70" : "text-white/40 italic")}>
-                  <span className={cx("mr-2 font-mono text-[10px] tracking-[0.12em] uppercase", l.speaker === "agent" ? "text-sky" : "text-white/40")}>
+                <p key={l.id} className={cx("animate-enter text-[15.5px] leading-relaxed", l.speaker === "agent" ? "text-ink" : l.final ? "text-ink/78" : "text-ink/62 italic")}>
+                  <span className={cx("mr-2 text-[13px] font-semibold", l.speaker === "agent" ? "text-leaf" : "text-ink/62")}>
                     {l.speaker === "agent" ? "AnnaRelay" : "You"}
                   </span>
                   {l.text}
                 </p>
               ))}
               {state.thinking ? (
-                <p className="flex items-center gap-1.5 text-sm text-orange" aria-label="Thinking">
-                  {[0, 1, 2].map((i) => <span key={i} className="size-1.5 animate-blink rounded-full bg-orange" style={{ animationDelay: `${i * 160}ms` }} />)}
+                <p className="flex items-center gap-1.5 text-sm text-saffron" aria-label="Thinking">
+                  {[0, 1, 2].map((i) => <span key={i} className="size-1.5 animate-blink rounded-full bg-saffron" style={{ animationDelay: `${i * 160}ms` }} />)}
                 </p>
               ) : null}
             </div>
@@ -239,20 +239,20 @@ export function CallScreen() {
                     value={typed}
                     onChange={(e) => setTyped(e.target.value)}
                     placeholder="Type instead of speaking…"
-                    className="min-w-0 flex-1 rounded-full border border-line bg-raised px-4 py-2.5 text-white placeholder:text-white/35 focus:border-sky focus:outline-none"
+                    className="min-w-0 flex-1 rounded-full border border-line bg-raised px-4 py-2.5 text-ink placeholder:text-ink/35 focus:border-leaf focus:outline-none"
                   />
-                  <button type="submit" className="rounded-full bg-white px-4 text-navy" aria-label="Send"><Send className="size-4" aria-hidden /></button>
+                  <button type="submit" className="rounded-full bg-ink px-4 text-paper" aria-label="Send"><Send className="size-4" aria-hidden /></button>
                 </form>
               ) : null}
               <div className="flex items-center justify-center gap-3">
-                <button type="button" onClick={() => setShowType((v) => !v)} className="flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-sm text-white/75 hover:text-white">
+                <button type="button" onClick={() => setShowType((v) => !v)} className="flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-sm text-ink/78 hover:text-ink">
                   <Keyboard className="size-4" aria-hidden /> {showType ? "Hide keyboard" : "Type instead"}
                 </button>
-                <span className="flex items-center gap-1.5 text-sm text-white/45">
-                  {state.micOn ? <Mic className="size-4 text-emerald" aria-hidden /> : <MicOff className="size-4" aria-hidden />}
+                <span className="flex items-center gap-1.5 text-sm text-ink/62">
+                  {state.micOn ? <Mic className="size-4 text-success" aria-hidden /> : <MicOff className="size-4" aria-hidden />}
                   {state.micOn ? "Mic on" : "Mic off"}
                 </span>
-                <button type="button" onClick={hangUp} className="flex items-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-semibold text-navy">
+                <button type="button" onClick={hangUp} className="flex items-center gap-2 rounded-full bg-saffron px-5 py-2.5 text-sm font-semibold text-paper">
                   <PhoneOff className="size-4" aria-hidden /> Hang up
                 </button>
               </div>
@@ -261,8 +261,8 @@ export function CallScreen() {
 
           {state.status === "ended" || state.status === "error" ? (
             <div className="mt-6 space-y-3 text-center">
-              {state.error ? <p className="text-orange">{state.error}</p> : outcomeText ? <p className="text-white">{outcomeText}</p> : null}
-              <button type="button" onClick={() => void start()} className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 font-semibold text-navy">
+              {state.error ? <p className="text-saffron">{state.error}</p> : outcomeText ? <p className="text-ink">{outcomeText}</p> : null}
+              <button type="button" onClick={() => void start()} className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 font-semibold text-paper">
                 <RotateCcw className="size-4" aria-hidden /> Call again
               </button>
             </div>
@@ -272,24 +272,24 @@ export function CallScreen() {
         {/* ---- right: the card that becomes the live offer ---- */}
         <section aria-label={role === "restaurant" ? "Your offer" : "Your request"} className="min-w-0">
           {state.offer && !state.matching ? (
-            <div className="animate-pop rounded-card border border-emerald/40 bg-raised p-6">
-              <p className="font-mono text-[10.5px] tracking-[0.14em] text-emerald uppercase">Offer listed · {state.offer.restaurant_name}</p>
-              <h2 className="display mt-2 text-3xl text-white">{state.offer.meal_count} plates · {state.offer.items.map((i) => i.name).join(", ") || "Cooked food"}</h2>
-              <p className="mt-2 text-white/70">{state.offer.diet === "veg" ? "Veg" : "Non-veg"} · safe until {fmtTime(state.offer.safe_until)}</p>
-              <p className="mt-4 text-white/60">Diet and safety checklist confirmed aloud. Matching is paused for this demo, so no shelter is contacted.</p>
-              <Link href={`/offers/${state.offer.id}`} className="mt-4 inline-flex items-center gap-1.5 font-semibold text-sky">See the offer <ArrowRight className="size-4" aria-hidden /></Link>
+            <div className="animate-pop rounded-card border border-success/40 bg-raised p-6">
+              <p className="text-[13px] text-success font-semibold">Offer listed · {state.offer.restaurant_name}</p>
+              <h2 className="display mt-2 text-3xl text-ink">{state.offer.meal_count} plates · {state.offer.items.map((i) => i.name).join(", ") || "Cooked food"}</h2>
+              <p className="mt-2 text-ink/78">{state.offer.diet === "veg" ? "Veg" : "Non-veg"} · safe until {fmtTime(state.offer.safe_until)}</p>
+              <p className="mt-4 text-ink/72">Diet and safety checklist confirmed aloud. Matching is paused for this demo, so no shelter is contacted.</p>
+              <Link href={`/offers/${state.offer.id}`} className="mt-4 inline-flex items-center gap-1.5 font-semibold text-leaf">See the offer <ArrowRight className="size-4" aria-hidden /></Link>
             </div>
           ) : state.offer ? (
             <LiveOfferPanel initial={state.offer} />
           ) : state.demand ? (
-            <div className="animate-pop rounded-card border border-emerald/40 bg-raised p-6">
-              <p className="font-mono text-[10.5px] tracking-[0.14em] text-emerald uppercase">Request live</p>
-              <h2 className="display mt-2 text-3xl text-white">Food for {state.demand.people_count} people</h2>
-              <p className="mt-2 text-white/70">{state.demand.recipient_name} · by {fmtTime(state.demand.needed_by)} · within {state.demand.max_distance_km} km</p>
-              <p className="mt-4 text-white/60">
+            <div className="animate-pop rounded-card border border-success/40 bg-raised p-6">
+              <p className="text-[13px] text-success font-semibold">Request live</p>
+              <h2 className="display mt-2 text-3xl text-ink">Food for {state.demand.people_count} people</h2>
+              <p className="mt-2 text-ink/78">{state.demand.recipient_name} · by {fmtTime(state.demand.needed_by)} · within {state.demand.max_distance_km} km</p>
+              <p className="mt-4 text-ink/72">
                 {state.matching ? "Offers that fit arrive on Telegram and in the web inbox." : "Matching is paused for this demo, so no offers will be sent."}
               </p>
-              <Link href={`/collector/${state.demand.recipient_id}`} className="mt-4 inline-flex items-center gap-1.5 font-semibold text-sky">Open the inbox <ArrowRight className="size-4" aria-hidden /></Link>
+              <Link href={`/collector/${state.demand.recipient_id}`} className="mt-4 inline-flex items-center gap-1.5 font-semibold text-leaf">Open the inbox <ArrowRight className="size-4" aria-hidden /></Link>
             </div>
           ) : (
             <DraftCard

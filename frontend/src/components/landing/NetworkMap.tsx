@@ -37,7 +37,7 @@ function DottedIndia() {
         cx={x}
         cy={y}
         r={0.3}
-        fill={near ? "#0099FF" : "#F2EFE9"}
+        fill={near ? "#1F7A4C" : "#1E2620"}
         fillOpacity={near ? Math.max(0.3, 1 - d / 9) : lit(i / 2) ? 0.5 : 0.2}
       />,
     );
@@ -65,12 +65,12 @@ function DottedIndia() {
       {/* Bengaluru: pulsing reach rings and a hexagon marker */}
       <g transform={`translate(${BENGALURU.x} ${BENGALURU.y})`}>
         {[0, 1.2].map((delay) => (
-          <circle key={delay} r={1} fill="none" stroke="#0099FF" strokeWidth={0.2}>
+          <circle key={delay} r={1} fill="none" stroke="#1F7A4C" strokeWidth={0.2}>
             <animate attributeName="r" from="1" to="8" dur="2.4s" begin={`${delay}s`} repeatCount="indefinite" />
             <animate attributeName="opacity" from="0.9" to="0" dur="2.4s" begin={`${delay}s`} repeatCount="indefinite" />
           </circle>
         ))}
-        <path d="M0 -1.5 1.3 -0.75 1.3 0.75 0 1.5 -1.3 0.75 -1.3 -0.75Z" fill="#0099FF" />
+        <path d="M0 -1.5 1.3 -0.75 1.3 0.75 0 1.5 -1.3 0.75 -1.3 -0.75Z" fill="#1F7A4C" />
       </g>
     </svg>
   );
@@ -90,27 +90,27 @@ function RelayInset({ homes, kitchens }: { homes: Recipient[]; kitchens: Restaur
   return (
     <div className="rounded-2xl border border-line bg-panel/90 p-4 backdrop-blur-sm">
       <div className="flex items-center justify-between">
-        <p className="font-mono text-[10.5px] tracking-[0.14em] text-white/55 uppercase">Bengaluru · zoomed in</p>
-        <span className="flex items-center gap-3 font-mono text-[10px] text-white/45">
-          <span className="inline-flex items-center gap-1"><span className="size-2 rotate-45 rounded-[2px] bg-orange" aria-hidden />kitchen</span>
-          <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-sky" aria-hidden />home</span>
+        <p className="text-[13px] text-ink/68 font-semibold">Bengaluru · zoomed in</p>
+        <span className="flex items-center gap-3 font-mono text-[10px] text-ink/62">
+          <span className="inline-flex items-center gap-1"><span className="size-2 rotate-45 rounded-[2px] bg-saffron" aria-hidden />kitchen</span>
+          <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-leaf" aria-hidden />home</span>
         </span>
       </div>
-      <div className="dot-field relative mt-3 h-56 rounded-xl border border-white/[0.05] bg-navy" role="img" aria-label="Kitchens and homes in Bengaluru">
+      <div className="dot-field relative mt-3 h-56 rounded-xl border border-ink/[0.05] bg-paper" role="img" aria-label="Kitchens and homes in Bengaluru">
         {kitchens.map((k) => (
           <div key={k.id} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${x(k.lng)}%`, top: `${y(k.lat)}%` }}>
-            <span className="block size-2.5 rotate-45 rounded-[2px] bg-orange" aria-hidden />
-            <span className="absolute top-4 left-1/2 -translate-x-1/2 font-mono text-[9.5px] whitespace-nowrap text-orange uppercase">{k.name.split(" ")[0]}</span>
+            <span className="block size-2.5 rotate-45 rounded-[2px] bg-saffron" aria-hidden />
+            <span className="absolute top-4 left-1/2 -translate-x-1/2 text-[13px] whitespace-nowrap text-saffron font-semibold">{k.name.split(" ")[0]}</span>
           </div>
         ))}
         {homes.map((h) => (
           <div key={h.id} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${x(h.lng)}%`, top: `${y(h.lat)}%` }}>
-            <span className="block size-2.5 rounded-full bg-sky" aria-hidden />
+            <span className="block size-2.5 rounded-full bg-leaf" aria-hidden />
             <span className={cx(
-              "absolute top-1/2 -translate-y-1/2 font-mono text-[9.5px] whitespace-nowrap text-white/60 uppercase",
+              "absolute top-1/2 -translate-y-1/2 text-[13px] whitespace-nowrap text-ink/72 font-semibold",
               h.lng < ref.lng - 0.005 ? "right-4" : "left-4",
             )}>
-              {h.name.split(" ")[0]} <span className="text-white/40">{km(ref, h).toFixed(1)} km</span>
+              {h.name.split(" ")[0]} <span className="text-ink/62">{km(ref, h).toFixed(1)} km</span>
             </span>
           </div>
         ))}
@@ -133,7 +133,7 @@ export function NetworkMap({ board, restaurants }: { board: Board | null; restau
           <div className="relative z-10 flex flex-col">
             <Eyebrow icon={<MapIcon />}>Bengaluru relay</Eyebrow>
             <SectionTitle className="mt-5">Every meal lands close to home</SectionTitle>
-            <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-white/55">
+            <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-ink/68">
               The relay runs across Bengaluru today. A home is only offered food it can reach before the food stops being safe.
             </p>
             <div className="mt-8">
@@ -151,20 +151,20 @@ export function NetworkMap({ board, restaurants }: { board: Board | null; restau
               <DottedIndia />
               {/* marker label, positioned in the same map coordinates */}
               <div className="pointer-events-none absolute" style={{ left: `${bx}%`, top: `${by}%` }}>
-                <p className="ml-6 -translate-y-1/2 font-mono text-[12px] tracking-[0.12em] whitespace-nowrap uppercase">
-                  <span className="text-sky">Bengaluru</span>{" "}
-                  <span className="hidden text-white/70 sm:inline">{homes.length || 5} homes · {kitchens.length || 2} kitchens</span>
+                <p className="ml-6 -translate-y-1/2 text-[12px] whitespace-nowrap font-semibold">
+                  <span className="text-leaf">Bengaluru</span>{" "}
+                  <span className="hidden text-ink/78 sm:inline">{homes.length || 5} homes · {kitchens.length || 2} kitchens</span>
                 </p>
               </div>
             </div>
             <div className={cx("absolute right-0 bottom-0 flex gap-12 text-right")}>
               <div>
-                <p className="text-sm text-white/45">Meals rescued</p>
-                <p className="mt-1 text-3xl text-white"><CountUp value={board?.stats.meals_rescued} /></p>
+                <p className="text-sm text-ink/62">Meals rescued</p>
+                <p className="mt-1 text-3xl text-ink"><CountUp value={board?.stats.meals_rescued} /></p>
               </div>
               <div>
-                <p className="text-sm text-white/45">Backups promoted</p>
-                <p className="mt-1 text-3xl text-white"><CountUp value={board?.stats.backups_promoted} /></p>
+                <p className="text-sm text-ink/62">Backups promoted</p>
+                <p className="mt-1 text-3xl text-ink"><CountUp value={board?.stats.backups_promoted} /></p>
               </div>
             </div>
           </div>

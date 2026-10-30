@@ -251,7 +251,7 @@ export function VoiceInput({
   return (
     <div>
       {engine !== "none" ? (
-        <div className="flex flex-col items-center gap-4 rounded-card bg-raised px-5 py-6 text-white">
+        <div className="flex flex-col items-center gap-4 rounded-card bg-raised px-5 py-6 text-ink">
           <button
             type="button"
             onClick={toggle}
@@ -260,7 +260,7 @@ export function VoiceInput({
             aria-label={listening ? "Stop recording" : "Start recording"}
             className={cx(
               "flex size-24 items-center justify-center rounded-full transition-colors disabled:opacity-50",
-              listening ? "animate-pulse-ring bg-sky text-navy" : "bg-white text-navy hover:bg-white/90",
+              listening ? "animate-pulse-ring bg-leaf text-paper" : "bg-ink text-paper hover:bg-ink/90",
             )}
           >
             {transcribing ? <LoaderCircle className="size-10 animate-spin" aria-hidden /> : listening ? <Square className="size-9 fill-current" aria-hidden /> : <Mic className="size-10" aria-hidden />}
@@ -268,7 +268,7 @@ export function VoiceInput({
           <p className="text-center text-base font-semibold" aria-live="polite">
             {transcribing ? (engine === "stream" ? "Finishing the transcript…" : "Turning your voice into text…") : listening ? "Listening… tap to stop" : "Tap and speak"}
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-1 rounded-full bg-white/10 p-1" role="radiogroup" aria-label="Spoken language">
+          <div className="flex flex-wrap items-center justify-center gap-1 rounded-full bg-ink/10 p-1" role="radiogroup" aria-label="Spoken language">
             {langs.map((l) => (
               <button
                 key={l.v}
@@ -279,27 +279,27 @@ export function VoiceInput({
                 onClick={() => setLang(l.v)}
                 className={cx(
                   "rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors",
-                  lang === l.v ? "bg-white text-navy" : "text-white/80 hover:text-white",
+                  lang === l.v ? "bg-ink text-paper" : "text-ink/85 hover:text-ink",
                 )}
               >
                 {l.label}
               </button>
             ))}
           </div>
-          <p className="text-xs text-white/60">
+          <p className="text-xs text-ink/72">
             {engine === "stream" ? "Live transcription: words appear as you speak (Indian languages, code-mixed)" : engine === "server" ? "Server speech-to-text, Indian languages and code-mixed speech" : "Browser speech recognition (Chrome or Edge)"}
           </p>
         </div>
       ) : (
-        <p className="rounded-2xl bg-white/[0.03] px-4 py-3 text-sm text-white/75">
+        <p className="rounded-2xl bg-ink/[0.03] px-4 py-3 text-sm text-ink/78">
           Voice input isn&apos;t available in this browser. Type your message below (Chrome or Edge support voice).
         </p>
       )}
 
-      {error ? <p className="mt-3 rounded-xl border border-orange/70 bg-orange/[0.06] px-3 py-2 text-sm text-white" role="alert">{error}</p> : null}
+      {error ? <p className="mt-3 rounded-xl border border-saffron/70 bg-saffron/[0.06] px-3 py-2 text-sm text-ink" role="alert">{error}</p> : null}
 
-      <label htmlFor={id} className="mt-4 mb-1.5 block text-sm font-semibold text-white">
-        {label} <span className="font-normal text-white/60">(edit freely)</span>
+      <label htmlFor={id} className="mt-4 mb-1.5 block text-sm font-semibold text-ink">
+        {label} <span className="font-normal text-ink/72">(edit freely)</span>
       </label>
       <textarea
         id={id}

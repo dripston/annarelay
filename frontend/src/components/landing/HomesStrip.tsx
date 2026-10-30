@@ -10,10 +10,10 @@ export function HomesStrip({ board }: { board: Board | null }) {
   return (
     <section className="py-20">
       <Container>
-        <p className="text-center text-[15px] text-white/45">Feeding people at homes like these <span className="text-white/30">(simulated)</span></p>
+        <p className="text-center text-[15px] text-ink/62">Feeding people at homes like these <span className="text-ink/55">(simulated)</span></p>
         <ul className="mt-9 flex flex-wrap items-center justify-center gap-x-14 gap-y-6">
           {names.map((n, i) => (
-            <Reveal as="li" key={n} delay={i * 80} className="text-2xl font-semibold tracking-tight text-white/35 transition-colors hover:text-white/70 sm:text-[1.7rem]">
+            <Reveal as="li" key={n} delay={i * 80} className="text-2xl font-semibold tracking-tight text-ink/62 transition-colors hover:text-ink/78 sm:text-[1.7rem]">
               {n}
             </Reveal>
           ))}
