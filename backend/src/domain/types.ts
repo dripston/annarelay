@@ -198,6 +198,9 @@ export interface RecipientRow {
   is_simulated_history: number;
   /** preferred language for Telegram (BCP-47), learned from the shelter's own messages */
   language?: string | null;
+  /** the shelter's usual daily need, remembered from its last request (see domain/standingNeeds) */
+  standing_people?: number | null;
+  standing_diet?: Diet | null;
 }
 
 export interface DemandRow {

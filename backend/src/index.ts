@@ -11,6 +11,7 @@ import { misc } from "./routes/misc";
 import { offers } from "./routes/offers";
 import { transcribeRouter } from "./routes/transcribe";
 import { startScheduler } from "./scheduler";
+import { refreshStandingNeeds } from "./domain/standingNeeds";
 import { startBot } from "./telegram/bot";
 import { streamWss } from "./ai/sttStream";
 import { agentWss } from "./agent/server";
@@ -36,6 +37,9 @@ export function createApp() {
 if (!process.env.VITEST) {
   const empty = (db.prepare("SELECT COUNT(*) AS n FROM recipients").get() as { n: number }).n === 0;
   if (empty) seed();
+  // requests from earlier days expire; every shelter gets today's request from its standing need
+  const needs = refreshStandingNeeds();
+  if (needs.expired || needs.created) console.log(`Standing needs: ${needs.expired} past requests expired, ${needs.created} opened for today.`);
 
   const server = createApp().listen(config.PORT, () => {
     console.log(`AnnaRelay backend on http://localhost:${config.PORT}  (llm: ${llmStatus()}, laya: ${layaStatus()})`);

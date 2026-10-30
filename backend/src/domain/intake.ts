@@ -7,6 +7,7 @@ import { nowIso, nowMs } from "./clock";
 import { fmtTime } from "./format";
 import { newId } from "./ids";
 import { runMatching } from "./matching";
+import { rememberNeed } from "./standingNeeds";
 import { AppError, type DemandRow, type IntakeGuardrail, type OfferRow } from "./types";
 
 const isoString = z.string().refine((s) => !Number.isNaN(Date.parse(s)), "must be an ISO 8601 timestamp");
@@ -81,6 +82,8 @@ export function createOffer(input: z.infer<typeof CreateOfferBody>, guardrail: I
 export function createDemand(input: z.infer<typeof CreateDemandBody>): DemandRow {
   if (!getRecipient(input.recipient_id)) throw new AppError(404, "NOT_FOUND", `Recipient ${input.recipient_id} not found`);
   if (Date.parse(input.needed_by) <= nowMs()) throw new AppError(400, "VALIDATION_ERROR", "needed_by is in the past");
+  // this becomes the shelter's remembered daily need, and replaces today's automatic request
+  rememberNeed(input.recipient_id, input.people_count, input.diet);
   const row = insertDemand({ ...input, needed_by: new Date(input.needed_by).toISOString() });
   for (const o of listOfferRowsByStatus("open", "matching")) runMatching(o.id);
   return row;

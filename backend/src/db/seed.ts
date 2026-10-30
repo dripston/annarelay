@@ -35,6 +35,9 @@ export const RECIPIENTS: Seed[] = [
     link_code: "DAWN1", completed: 0, cancelled: 0, no_show: 0, avg_response_secs: 300, demand: { people: 15, diet: "any" } },
 ];
 
+/** Note on the automatic daily request each shelter gets (domain/standingNeeds renews it). */
+export const STANDING_NOTE = "Standing need, renewed daily (simulated)";
+
 /** Tonight 21:30 local; if that's under 2 h away (late rehearsals), ~4 h from now instead. */
 export function demandDeadline(ref = nowMs()): string {
   const tonight = localToMs(0, 21, 30, ref);
@@ -73,7 +76,7 @@ export function seed(opts: { keepTelegramLinks?: boolean } = {}): void {
       insRc.run(row);
       insD.run({
         id: `d_${r.id.slice(3)}`, recipient_id: r.id, people_count: demand.people, meals_matched: 0, diet: demand.diet,
-        needed_by: neededBy, notes: "Simulated demand", status: "open", created_at: addSecs(now, -3600),
+        needed_by: neededBy, notes: STANDING_NOTE, status: "open", created_at: addSecs(now, -3600),
       });
     }
     for (const l of links) {
@@ -86,7 +89,7 @@ export function seed(opts: { keepTelegramLinks?: boolean } = {}): void {
       ).run({ language: null, ...j });
       insD.run({
         id: `d_${String(j.id).slice(3)}`, recipient_id: j.id, people_count: 20, meals_matched: 0, diet: "any",
-        needed_by: neededBy, notes: "Judge shelter (simulated demand)", status: "open", created_at: addSecs(now, -60),
+        needed_by: neededBy, notes: STANDING_NOTE, status: "open", created_at: addSecs(now, -60),
       });
     }
 

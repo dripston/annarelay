@@ -9,6 +9,7 @@ import { applyFallback } from "./domain/fallback";
 import { runMatching } from "./domain/matching";
 import { PRIMARY_OPEN, refreshOffer, remainingMeals, releaseStandby, STANDBY_LIVE } from "./domain/offerState";
 import { runRisk } from "./domain/risk";
+import { refreshStandingNeeds } from "./domain/standingNeeds";
 import { sendReconfirm, timeoutOffer, timeoutReconfirm, timeoutStandby } from "./domain/transitions";
 
 const past = (iso: string | null) => !!iso && Date.parse(iso) <= nowMs();
@@ -21,8 +22,15 @@ function step(name: string, fn: () => void): void {
   }
 }
 
+let lastNeedsRefresh = 0;
+
 export function tick(): void {
   if (config.MATCHING === "off") return; // intake-only demo: nothing to time out, escalate or expire
+  // 0. once a minute: expire past requests and open today's for every shelter's standing need
+  if (nowMs() - lastNeedsRefresh >= 60_000) {
+    lastNeedsRefresh = nowMs();
+    step("standing needs", () => void refreshStandingNeeds());
+  }
   // 1. offer timeouts
   step("offer timeouts", () => {
     for (const a of listAssignmentsByStatus("offered")) if (past(a.respond_by)) timeoutOffer(a.id);
