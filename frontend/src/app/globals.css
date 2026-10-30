@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+/*
+  AnnaRelay design system, matched to the Aceternity "Inference" landing page.
+  Values measured from the reference: ink #0A0A0A canvas, warm "paper" #F2EFE9 type, accent blue #0099FF,
+  amber #F0B24A for active / attention, emerald #10B981 for live / success, neutral panels, zinc light surfaces.
+
+  Token names are semantic and shared by every component:
+    navy   = ink (the canvas)          white  = paper (type on dark, light pills)
+    sky    = accent blue (text, bars)  blue   = deeper accent blue (fills with paper text)
+    orange = amber (attention; ink text on it)   emerald = success
+    snow / mist / zinc = the light product frame
+*/
+:root {
+  --color-navy: #0a0a0a;
+  --color-white: #f2efe9;
+  --color-sky: #0099ff;
+  --color-blue: #0082fb;
+  --color-orange: #f0b24a;
+  --color-emerald: #10b981;
+}
+
+@theme {
+  --color-*: initial;
+  --color-navy: #0a0a0a;
+  --color-white: #f2efe9;
+  --color-sky: #0099ff;
+  --color-blue: #0082fb;
+  --color-orange: #f0b24a;
+  --color-emerald: #10b981;
+
+  /* neutral surfaces on the ink canvas */
+  --color-panel: #121212;
+  --color-raised: #1a1a1a;
+  --color-line: #262626;
+
+  /* light product frame (zinc) */
+  --color-snow: #ffffff;
+  --color-mist: #f4f4f5;
+  --color-zinc: #e4e4e7;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-card: 1.25rem;
+
+  --animate-enter: enter 500ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-pop: pop 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-pulse-ring: pulse-ring 1.8s ease-out infinite;
+  --animate-dash: dash 1.2s linear infinite;
+  --animate-blink: blink 2.4s ease-in-out infinite;
+  --animate-mist: mist 26s ease-in-out infinite alternate;
+  --animate-mist-slow: mist 38s ease-in-out infinite alternate-reverse;
+
+  @keyframes enter {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pop {
+    0% { opacity: 0; transform: scale(0.97); }
+    60% { opacity: 1; transform: scale(1.005); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, #0099ff 55%, transparent); }
+    100% { box-shadow: 0 0 0 16px color-mix(in srgb, #0099ff 0%, transparent); }
+  }
+  @keyframes dash {
+    to { stroke-dashoffset: -16; }
+  }
+  @keyframes mist {
+    from { transform: translateX(-60px); }
+    to { transform: translateX(60px); }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+  }
+}
+
+html {
+  background: var(--color-navy);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-navy);
+  color: var(--color-white);
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-sky);
+  color: var(--color-navy);
+}
+
+/* node flash when a relay packet arrives (used from inline styles, so declared outside @theme) */
+@keyframes node-glow {
+  0% { opacity: 0; }
+  3% { opacity: 1; }
+  16% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* numbers that tick should not jitter */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* display type: Plus Jakarta Sans 500 with tight tracking (it sets wider than Inter) */
+.display {
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+/* hairline grid texture: an SVG pattern of 1px lines (flat, no gradients) */
+.grid-lines {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='104' height='104'%3E%3Cpath d='M104 0V104M0 104H104' fill='none' stroke='%23F2EFE9' stroke-opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* dot texture for map-like panels */
+.dot-field {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23F2EFE9' fill-opacity='0.12'/%3E%3C/svg%3E");
+}
+
+/* light dashboard frame keeps its own form styling */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.6;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-sky);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}

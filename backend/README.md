@@ -1,0 +1,142 @@
+# AnnaRelay — backend
+
+Express + TypeScript + SQLite. Matches leftover restaurant food to shelters that need it, ranks collectors by a Bayesian reliability estimate (with Thompson sampling), watches every pickup for risk, puts a backup on standby, and records an outcome for every offer.
+
+It builds against [`../API_CONTRACT.md`](../API_CONTRACT.md). Contract change proposals go in [`CONTRACT_CHANGES.md`](CONTRACT_CHANGES.md).
+
+## Quick start
+
+```bash
+cd backend
+npm install
+cp .env.example .env      # already done if .env exists
+npm run dev               # http://localhost:4000, seeds demo data on first run
+```
+
+With no keys at all, it runs fully on mocks (`LLM_PROVIDER=mock`, `DECISION_PROVIDER=mock`) and without Telegram; the web inbox still works.
+
+**Demo day, one command:** `npm run demo`. It starts local Laya and the backend if they aren't running, waits for both, does a real AI round trip, and prints a ready/not-ready table for llm, laya, stt and telegram. Ctrl+C stops what it started. Add `--scenarios` to also run the 4 scenarios. The frontend is started separately (`cd ../frontend && npm run dev`).
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Server with reload (API + scheduler every 2 s + Telegram bot if a token is set) |
+| `npm test` | Vitest suite (Thompson sampling off, mocks only, in-memory DB) |
+| `npm run scenarios` | Runs the 4 demo scenarios + parse checks against a **running** server (`API=http://host:port` to override; `ROUNDS=5` to repeat) |
+| `npm run seed` | Re-seed the database (also: `POST /api/demo/reset`) |
+| `npm run typecheck` | `tsc --noEmit` |
+
+## Keys (all optional)
+
+| Key | Where to get it | `.env` |
+| --- | --- | --- |
+| Generative LLM | **Groq** (in use): <https://console.groq.com/keys>. Also supported: Gemini, OpenAI, Anthropic. | `LLM_PROVIDER=groq`, `LLM_API_KEY=gsk_...`, `LLM_MODEL=openai/gpt-oss-120b` (text-only, so `photo_check` stays null; use gemini for photo checks) |
+| Speech-to-text | **Sarvam** (in use): <https://dashboard.sarvam.ai>. Groq Whisper is the automatic fallback. | `STT_PROVIDER=sarvam`, `SARVAM_API_KEY=...`, `SARVAM_MODEL=saaras:v4`, `GROQ_API_KEY=gsk_...` |
+| Vercel AI Gateway (Laya) | vercel.com → Dashboard → **AI Gateway** → **API Keys** → Create key. Laya (`convaiinnovations/laya-free`) is free through 31 Oct 2026, **but the Vercel account must have a credit card on file** or every call returns `customer_verification_required`. | `DECISION_PROVIDER=laya`, `AI_GATEWAY_API_KEY=...` |
+| Telegram bot | In Telegram, message **@BotFather** → `/newbot` → pick a name and a username ending in `bot` → copy the token | `TELEGRAM_BOT_TOKEN=...`, `TELEGRAM_BOT_USERNAME=...` |
+
+Test Laya directly:
+
+```bash
+curl https://ai-gateway.vercel.sh/v1/evaluate \
+  -H "Authorization: Bearer $AI_GATEWAY_API_KEY" -H "Content-Type: application/json" \
+  -d '{"model":"convaiinnovations/laya-free","state":"traffic is really bad, may be late",
+       "questions":{"at_risk":{"type":"boolean","instructions":"Is there any sign this collector might not arrive in time?"}},
+       "providerOptions":{"gateway":{"only":["boundless"]}}}'
+```
+
+`GET /api/health` reports `llm` / `laya` as `ready | mock | missing_key` (Laya also `unavailable` after a failed call) and `telegram` as `ready | disabled`.
+
+**Telegram linking:** each recipient has a link code (`HOPE1`, `SUN1`, `STAR1`, `SAATHI1`, `DAWN1`). Open `t.me/<bot_username>?start=HOPE1` on a phone, or send `/start HOPE1` to the bot. `POST /api/demo/reset` keeps existing chat links.
+
+## Voice (multilingual speech-to-text)
+
+`POST /api/transcribe` (multipart): `audio` (webm/ogg/wav/mp3/m4a, < 30 s), optional `language_code` (default `unknown` = auto-detect across 23 Indian languages incl. en-IN, hi-IN, kn-IN, ta-IN; code-mixed speech works), optional `mode` (saaras:v3 only: transcribe | translate | codemix ...). Returns `{ text, language_code, language_probability, source: "sarvam" | "groq" }`. Send `text` to `/api/offers/parse` or `/api/demands/parse` as `transcript`; the LLM reads Hindi / Hinglish / Kannada directly. Spoken 12-hour times ("11 baje") are corrected in code so `safe_until` / `needed_by` never land in the past.
+
+**Live (word-by-word) transcription:** `ws://localhost:4000/api/transcribe/stream?language_code=auto`. The browser streams 16 kHz mono 16-bit PCM; the backend relays it to Sarvam realtime (`SARVAM_STREAM_MODEL=saaras:v3-realtime`) and sends back `partial` / `final` / `done` events. Protocol and a browser recipe: [`CONTRACT_CHANGES.md` #3](CONTRACT_CHANGES.md). Test with `npx tsx scripts/stt-stream-check.ts <file.wav>`.
+
+## Environment
+
+See [`.env.example`](.env.example). Timers are demo-scaled: accept 45 s, reconfirm 20 s after accept, reconfirm timeout 30 s, standby timeout 45 s. `RISK_THRESHOLD=0.25`, `INTENT_MIN_PROBABILITY=0.70`, `EXPLORE_MIN_SLACK_MINS=90`, `DEMO_SEED=42`. `FRONTEND_ORIGIN` accepts a comma-separated list (add `http://<laptop-ip>:3000` for cross-laptop demos).
+
+## Voice agent + live stream (contract v3)
+
+- **`ws /api/agent/call?role=restaurant|recipient`**: an AI phone-style call that replaces the intake forms. It hears through Sarvam realtime STT and thinks with Groq (about 1 s per turn). It speaks through Sarvam TTS, sentence by sentence, in the caller's language (English, Hindi, Hinglish…), and stops talking when the caller talks over it.
+- **Code owns the flow** (`src/agent/session.ts`): collect, then read back (a spoken *yes* sets `diet_confirmed`), then read the safety checklist (a spoken *yes* sets `safety_checklist_confirmed`), then the offer is created through the same `domain/intake.ts` validation as `POST /api/offers`. A *no* to the checklist ends the call without listing. The LLM only extracts fields, classifies yes/no (≥ 85 %), and phrases questions.
+- **`GET /api/stream`** (SSE) pushes `board`, `offer`, `timeline` and `call.*` events as they happen, so the UI renders live with no polling.
+- Frontend build guide: [`FRONTEND_VOICE_AGENT_SPEC.md`](FRONTEND_VOICE_AGENT_SPEC.md). Test without a mic: `npx tsx scripts/agent-check.ts restaurant|unsafe|hindi|recipient`.
+
+## Telegram voice notes + judge mode (contract v3.1)
+
+- **Voice in:** a shelter can reply to any offer with a Telegram voice note in Hindi, Kannada, English and other languages. Sarvam transcribes it, the bot shows "🎙 Heard: …", and it's handled exactly like a typed reply (same rule table).
+- **Voice out:** offers, reconfirms, standby requests and promotions also arrive as a spoken voice note (Sarvam TTS, MP3) in the shelter's language. The language is learned from their messages, or set with `/hindi`, `/english`, `/kannada` and so on. Turn off with `TELEGRAM_VOICE=off`.
+- **Judge mode:** show `http://localhost:4000/api/judge/qr.svg` on the projector. A judge scans it (`t.me/<bot>?start=JUDGE`) and becomes "<Name>'s Shelter", 0.8 km from Koramangala Kitchen with an open demand for 20 people and a good simulated record. They rank first, so the stage offer lands on their phone. Judges survive demo resets. `GET /api/judge` lists who joined.
+
+## Decision model: the LLM, with code-side rules (Laya evaluated and not used)
+
+`DECISION_PROVIDER=llm` (default): the LLM (Groq) answers the same typed questions Laya would (choice / yes-no, with probabilities). Plain code still decides everything that matters: the 70 % intent threshold, the fixed reply table, the diet confirmation rules, and a deterministic **safety keyword floor** ("left out", "since afternoon", "smells" -> at least 75 % concern).
+
+**Why not Laya.** The Vercel gateway needs a credit card even for `laya-free`. We ran the open weights locally (`npm run laya:setup` / `npm run laya`, about 0.4B params on CPU, request format verified) and probed them on our sentences:
+
+| Sentence | Laya english | Laya multilingual |
+| --- | --- | --- |
+| "40 plates veg biryani..." | veg 95 % | non-veg 58 %, unsafe 92 % |
+| "30 plates chicken biryani, freshly cooked" | veg 55 % | non-veg 67 % |
+| "40 plates paneer butter masala, fresh" | non-veg 60 % | non-veg 68 % |
+| "dal rice, sitting out since afternoon" | unsafe 25 % | unsafe 7 % |
+
+That is near-random on diet and inverted on safety (consistent with the base checkpoints' published ~36 % typed-decision accuracy), and it took 1-4 s per call on a laptop CPU. A safety guardrail can't rest on that, so Laya is off by default and `/api/health` reports `laya: "unavailable"` rather than claiming it's ready. The integration remains (`laya_local`, `hybrid`, and `laya` for the gateway) for a fine-tuned checkpoint later; `npm run laya:check` compares any provider on the demo sentences.
+
+**Demo sentence for the diet guardrail:** `30 plates of biryani made at 8 safe till 11` (biryani can be veg or chicken, so the LLM says about 50 % and asks to confirm).
+
+## Where the AI is (and isn't)
+
+| Job | Who | Can it change state alone? |
+| --- | --- | --- |
+| Transcript → offer / demand fields | Generative LLM (`src/ai/parse.ts`), zod-validated, 1 retry, cached | No, the user reviews and confirms |
+| Diet double-check + food-safety concern | Laya (`src/ai/guardrail.ts`) | No, it can only *add* a confirmation step |
+| Reply intent + at-risk signal | Laya (`src/ai/understandReply.ts`) | Only through the fixed table in `src/domain/replies.ts`, and only at ≥ 70 % |
+| Numbers / times inside replies | Generative LLM (`extractReplyDetails`) | No |
+| Who gets the food | Bayesian reliability + Thompson sampling (`src/domain/matching.ts`) | Yes, deterministic code, logged |
+| When to call a backup | Risk model (`src/domain/risk.ts`) | Yes, deterministic code, logged |
+
+Every successful AI response is cached in `data/ai_cache.json`. On timeout or error the cache is served; if there is no cache hit, the intake guardrail falls back to "please confirm manually" and replies fall back to "needs clarification" (no state change).
+
+## Demo scenarios
+
+Run `POST /api/demo/reset` before each one. `npm run scenarios` runs all four automatically.
+
+1. **Happy path + split:** a 40-meal veg offer, safe for 75 min, splits 20 to Hope Shelter and 20 to Sunrise Elders Home. Both accept and collect.
+2. **Risk → standby → dropout caught:** a 20-meal veg offer goes to Hope, who accepts. Hope replies "traffic is really bad, may be late" (running late, at-risk 78 %), so p_fail jumps to 81 % and Sunrise is asked to stand by. Sunrise taps "I can stand by". Hope goes silent at reconfirm ("Skip wait" = `POST /api/demo/fast-forward/:id`), and Sunrise is promoted instantly and collects.
+3. **Free-text partial:** a 15-meal non-veg offer goes to Little Stars (Hope and Sunrise are veg-only). Little Stars replies "we can only take 8", so 8 are accepted and 7 are re-matched to New Dawn Shelter.
+4. **Too late:** with `safe_until` 25 min away, nobody can reach it, so the meals go to the animal feed partner (simulated).
+
+Exploration: an offer with 3+ hours of slack ranks by Thompson draws and may log an `exploration` event (seeded by `DEMO_SEED`, so it is repeatable after a reset).
+
+**Warm the AI cache before the demo:** with real keys set, run `npm run scenarios` and the curl parse examples from `CONNECTION_PLAN.md`. Every exact demo sentence then has a cached LLM and Laya response.
+
+## Implementation notes (backend decisions within the contract)
+
+- **Fallback trigger.** The plan says to fall back when `now + PICKUP_BUFFER_MINS >= safe_until`. Because the fastest possible ETA is 10 min (`etaMins(0)`), the backend falls back as soon as `now + 10 + PICKUP_BUFFER_MINS >= safe_until`, since nobody could make it anyway. This is why scenario 4 resolves immediately instead of after a 5-minute wait.
+- **Headline metric denominator.** `share_collected_within_window` = offers collected within their window ÷ offers that have *finished* (collected / partially_collected / fallback / expired). In-flight offers don't drag it down mid-demo.
+- **Seeded demand deadline.** Demands are due at 21:30 IST tonight, or about 4 h from now if 21:30 is less than 2 h away (late rehearsals).
+- **Standby meals.** A standby is asked for `min(primary meals, its remaining demand)`. Any shortfall after promotion is re-matched.
+- **`avg_response_secs`** updates as an exponential moving average (20 % weight on the newest response).
+- **Board proximity** is measured from the most recent open offer's restaurant; with no open offer it is 0.5.
+- Photos are stored in `uploads/` and returned as relative `photo_url` (`/uploads/<file>`).
+
+## Layout
+
+```
+src/
+  index.ts  config.ts  scheduler.ts  replyFlow.ts
+  db/        schema.sql db.ts repo.ts seed.ts
+  domain/    types.ts bayes.ts reliability.ts matching.ts risk.ts transitions.ts replies.ts
+             offerState.ts fallback.ts timeline.ts board.ts geo.ts clock.ts format.ts notify.ts ids.ts
+  ai/        llm.ts laya.ts mock.ts cache.ts prompts.ts parse.ts guardrail.ts understandReply.ts status.ts time.ts
+  routes/    http.ts misc.ts offers.ts demands.ts assignments.ts
+  telegram/  bot.ts
+tests/       bayes reliability matching risk transitions replies parse
+scripts/     scenarios.ts
+```
+
+All seeded recipients, histories and partners are **simulated** (`is_simulated_history`, `is_simulated`).

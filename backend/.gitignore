@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.local
+data/*
+!data/.gitkeep
+uploads/*
+!uploads/.gitkeep
+laya-local/.venv/
+laya-local/hf-cache/
+laya-local/*.log
